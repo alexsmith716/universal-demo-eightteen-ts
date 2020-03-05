@@ -33,6 +33,7 @@
     "concurrently": "^5.1.0",
     "connect-mongo": "^3.2.0",
     "cookie-parser": "^1.4.4",
+    "core-js": "^3.6.4",
     "d3": "^5.15.0",
     "express": "^4.17.1",
     "express-session": "^1.17.0",
@@ -62,6 +63,7 @@
     "redux-immutable": "^4.0.0",
     "redux-persist": "^6.0.0",
     "redux-persist-cookie-storage": "^1.0.0",
+    "regenerator-runtime": "^0.13.3",
     "reselect": "^4.0.0",
     "serialize-javascript": "^3.0.0",
     "webpack-flush-chunks": "^2.0.3"
@@ -125,7 +127,6 @@
     "postcss-preset-env": "^6.7.0",
     "postcss-url": "^8.0.0",
     "prettier": "^1.19.1",
-    "prettier-eslint-cli": "^5.0.0",
     "react-devtools": "^4.4.0",
     "react-hot-loader": "^4.12.19",
     "redux-devtools": "^3.5.0",
