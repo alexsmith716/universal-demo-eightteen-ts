@@ -1,0 +1,7 @@
+dist
+node_modules
+build
+jest.config.js
+jest.transform.js
+scripts
+webpack/
