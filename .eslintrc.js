@@ -13,23 +13,22 @@ module.exports = {
     ecmaFeatures: {
       jsx: true
     },
-    // allowImportExportEverywhere: true
+    allowImportExportEverywhere: true
   },
   extends: [
-    // 'airbnb',
-    'eslint:recommended',
-    'plugin:react/recommended',
+    'airbnb',
+    // 'eslint:recommended',
+    // 'plugin:react/recommended',
     // 'plugin:@typescript-eslint/recommended',
-    'prettier',
-    'prettier/react'
+    // 'prettier',
+    // 'prettier/react'
     // 'prettier/@typescript-eslint'
   ],
   plugins: [
     // '@typescript-eslint',
     'react',
-    'import',
     'react-hooks'
-    'prettier'
+    // 'prettier'
   ],
   settings: {
     react: {
@@ -49,6 +48,16 @@ module.exports = {
     // 'import/no-default-export': 2,
     'import/no-duplicates': 2,
     'import/no-extraneous-dependencies': 0,
+    'comma-dangle': [
+      2,
+      {
+        arrays: 'always-multiline',
+        objects: 'always-multiline',
+        imports: 'always-multiline',
+        exports: 'always-multiline',
+        functions: 'always-multiline',
+      },
+    ],
     //
     'react-hooks/rules-of-hooks': 2,
     'react-hooks/exhaustive-deps': 2,
