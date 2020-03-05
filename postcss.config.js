@@ -1,9 +1,12 @@
 module.exports = {
   plugins: {
     'postcss-import': {},
-    'autoprefixer': {},
+    'postcss-preset-env': {}
   },
 };
+
+// https://www.w3.org/TR/css3-values
+// https://github.com/postcss/postcss-calc
 
 // module.exports = ({ file }) => ({
 //   plugins: {

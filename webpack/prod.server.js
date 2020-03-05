@@ -1,13 +1,15 @@
 const path = require('path');
 const webpack = require('webpack');
-const externals = require('./node-externals');
 
 process.env.IS_CLIENT = false;
 
-const WebpackBar = require('webpackbar');
+const externals = require('./node-externals');
+
+const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 // const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 // const { DuplicatesPlugin } = require('inspectpack/plugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
+const WebpackBar = require('webpackbar');
 
 const rootPath = path.resolve(__dirname, '..');
 
@@ -225,6 +227,13 @@ module.exports = {
       __DEVELOPMENT__: false,
       __DEVTOOLS__: false,
       __DLLS__: false
+    }),
+
+    new OptimizeCssAssetsPlugin({
+      assetNameRegExp: /\.css$/g,
+      cssProcessor: require('cssnano'),
+      cssProcessorOptions: { discardComments: { removeAll: true } },
+      canPrint: true,
     }),
 
     new webpack.HashedModuleIdsPlugin(),

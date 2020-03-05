@@ -1,17 +1,17 @@
 const path = require('path');
 const webpack = require('webpack');
-const WebpackBar = require('webpackbar');
 
 process.env.IS_CLIENT = true;
 
 // const TerserPlugin = require('terser-webpack-plugin');
-// const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const ExtractCssChunks = require('extract-css-chunks-webpack-plugin');
 
 const CopyPlugin = require('copy-webpack-plugin');
 // const { GenerateSW } = require('workbox-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
+const WebpackBar = require('webpackbar');
 
 // const CompressionPlugin = require('compression-webpack-plugin');
 // const BrotliPlugin = require('brotli-webpack-plugin');
@@ -287,13 +287,12 @@ module.exports = {
       // cssModules: true
     }),
 
-    // https://github.com/NMFR/optimize-css-assets-webpack-plugin
-    // new OptimizeCssAssetsPlugin({
-    //   assetNameRegExp: /\.css$/g,
-    //   cssProcessor: require('cssnano'),
-    //   cssProcessorOptions: { discardComments: { removeAll: true } },
-    //   canPrint: true, // can plugin print messages to the console, default: true
-    // }),
+    new OptimizeCssAssetsPlugin({
+      assetNameRegExp: /\.css$/g,
+      cssProcessor: require('cssnano'),
+      cssProcessorOptions: { discardComments: { removeAll: true } },
+      canPrint: true,
+    }),
 
     new webpack.optimize.ModuleConcatenationPlugin(),
     new webpack.optimize.OccurrenceOrderPlugin(),

@@ -17,6 +17,7 @@ html {
 }
 
 body {
+
   /* Margin bottom by footer height plus a 'margin-top: 15px' */
   // margin-bottom: calculate-rem($footer-height + $footer-margin-top);
   margin-bottom: calculate-rem($footer-height);
@@ -160,10 +161,12 @@ hr.light {
   position: absolute;
   top: 0;
   left: 0;
+
   .line {
     stroke-width: 2;
     fill: #4F94CD;
   }
+
   .axis path {
     stroke: black;
   }
