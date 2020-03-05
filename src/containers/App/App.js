@@ -10,7 +10,7 @@ import { InfoBar } from '../../components';
 import { ReadmeModal } from '../../components';
 import { FontsModal } from '../../components';
 
-import UseMemoTest from '../../components/widgets/hooks/UseMemoTest/UseMemoTest';
+// import UseMemoTest from '../../components/widgets/hooks/UseMemoTest/UseMemoTest';
 
 import config from '../../../config/config';
 
@@ -102,7 +102,7 @@ const App = (props) => {
 
         {/* --------------- UseMemoTest ---------------- */}
 
-        <UseMemoTest className='hello' letters="hello there" />
+        {/* <UseMemoTest className='hello' letters="hello there" /> */}
 
         {/* ------------- Device State ----------- */}
 
