@@ -127,20 +127,6 @@ const providers = {
 
   hydrate(routes);
 
-  // if (__DEVTOOLS__ && !window.__REDUX_DEVTOOLS_EXTENSION__) {
-  //   console.log('>>>>>>>>>>>>>>>>>>> CLIENT > __DEVTOOLS__ <<<<<<<<<<<<<<<<<<<<<<');
-  //   const devToolsDest = document.createElement('div');
-  //   window.document.body.insertBefore(devToolsDest, null);
-  //   const DevTools = require('./containers/DevTools/DevTools').default;
-
-  //   ReactDOM.hydrate(
-  //     <Provider store={store}>
-  //       <DevTools />
-  //     </Provider>,
-  //     devToolsDest
-  //   );
-  // }
-
   if (!__DEVELOPMENT__ && 'serviceWorker' in navigator) {
     try {
       const registration = await navigator.serviceWorker.register('/service-worker.js');
