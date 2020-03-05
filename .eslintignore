@@ -1,7 +1,7 @@
 dist
-node_modules
 build
+node_modules
 jest.config.js
 jest.transform.js
 scripts
-webpack/
+webpack
