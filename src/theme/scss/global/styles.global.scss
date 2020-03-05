@@ -34,8 +34,8 @@ $spacers: map-merge(
     11: ($spacer * 12.5),      // 200px
     12: ($spacer * 25)         // 400px
   ),
-  $spacers
-);
+    $spacers
+  );
 $dropdown-bg: darken($dropdown-bg, 20%);
 
 @import "~bootstrap/scss/_root.scss";
