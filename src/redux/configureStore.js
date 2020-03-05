@@ -118,20 +118,6 @@ export default function configureStore({ data, helpers, persistConfig }) {
 
   // ----------------------------------------------------------------------
 
-  // https://github.com/reduxjs/redux-devtools/tree/master/packages/redux-devtools
-  // https://github.com/reduxjs/redux-devtools/blob/master/docs/Walkthrough.md#manual-integration
-  if (__CLIENT__ && __DEVELOPMENT__ && __DEVTOOLS__) {
-    const { persistState } = require('redux-devtools');
-    const DevTools = require('../containers/DevTools/DevTools').default;
-
-    Array.prototype.push.apply(enhancers, [
-      window.__REDUX_DEVTOOLS_EXTENSION__ ? window.__REDUX_DEVTOOLS_EXTENSION__() : DevTools.instrument(),
-      persistState(window.location.href.match(/[?&]debug_session=([^&]+)\b/))
-    ]);
-  }
-
-  // const r = __CLIENT__ && __DEVTOOLS__ && window.__REDUX_DEVTOOLS_EXTENSION__ ? window.__REDUX_DEVTOOLS_EXTENSION__() : v => v;
-
   // >>>>>>>>>>>>>>>> COMPOSES functions from right to left <<<<<<<<<<<<<<<
   // >>>>>>>>>>>>>>>> apply several store enhancers in a row <<<<<<<<<<<<<<<
   // store enhancer is a higher-order function that composes a store creator to return a new, enhanced store creator
