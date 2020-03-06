@@ -8,12 +8,12 @@ module.exports = {
   },
   parserOptions: {
     // plugins: ['typescript'],
-    // ecmaVersion: 2018,
+    ecmaVersion: 2018,
     sourceType: 'module',
     ecmaFeatures: {
-      jsx: true
+      jsx: true,
     },
-    allowImportExportEverywhere: true
+    allowImportExportEverywhere: true,
   },
   extends: [
     'airbnb',
@@ -22,32 +22,32 @@ module.exports = {
     // 'plugin:@typescript-eslint/recommended',
     // 'prettier',
     // 'prettier/react'
-    // 'prettier/@typescript-eslint'
+    // 'prettier/@typescript-eslint',
   ],
   plugins: [
     // '@typescript-eslint',
     'react',
     'react-hooks'
-    // 'prettier'
+    // 'prettier',
   ],
   settings: {
     react: {
-      version: 'detect'
-    }
+      version: 'detect',
+    },
   },
   rules: {
+    'arrow-parens': 0,
     'global-require': 0,
-    'indent': ['error', 2, {'SwitchCase': 1}],
     'no-console': 0,
-    'no-underscore-dangle': 0,
     'no-duplicate-imports': 0,
+    'no-underscore-dangle': 0,
+    // 'no-underscore-dangle': [
+    //   2,
+    //   {
+    //     allow: ['__setExecReturnValue', '__setExecuteOnFiles', '__webpack_modules__', '__esModule'],
+    //   },
+    // ],
     'no-eval': 1,
-    //
-    'import/newline-after-import': 0,
-    'import/prefer-default-export': 0,
-    // 'import/no-default-export': 2,
-    'import/no-duplicates': 2,
-    'import/no-extraneous-dependencies': 0,
     'comma-dangle': [
       2,
       {
@@ -56,21 +56,30 @@ module.exports = {
         imports: 'always-multiline',
         exports: 'always-multiline',
         functions: 'always-multiline',
+        // functions: 'never',
       },
     ],
     //
-    'react-hooks/rules-of-hooks': 2,
+    'import/newline-after-import': 0,
+    // 'import/no-default-export': 2,
+    'import/no-duplicates': 2,
+    'import/no-extraneous-dependencies': 0,
+    'import/prefer-default-export': 0,
+    //
     'react-hooks/exhaustive-deps': 2,
-    'react/jsx-filename-extension': 0,
-    'react/jsx-indent': [2, 'tab'],
-    'react/jsx-indent-props': [2, 'tab'],
-    'react/jsx-pascal-case': 2,
+    'react-hooks/rules-of-hooks': 2,
+    'react/jsx-boolean-value': 1,
     'react/jsx-closing-bracket-location': 1,
     'react/jsx-closing-tag-location': 1,
+    'react/jsx-filename-extension': [1, { extensions: ['.js', '.jsx'] }],
+    'react/jsx-fragments': 2,
+    'react/jsx-indent': [2, 'tab'],
+    'react/jsx-indent-props': [2, 'tab'],
+    'react/jsx-no-useless-fragment': 2,
+    'react/jsx-pascal-case': 2,
     'react/jsx-wrap-multilines': 1,
-    'react/jsx-boolean-value': 1,
     'react/no-array-index-key': 1,
-    'react/prop-types': 0
+    'react/prop-types': 0,
   },
   globals: {
     __DEVELOPMENT__: true,
@@ -78,6 +87,6 @@ module.exports = {
     __SERVER__: true,
     __DISABLE_SSR__: true,
     __DEVTOOLS__: true,
-    __DLLS__: true
+    __DLLS__: true,
   }
 }

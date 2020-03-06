@@ -17,7 +17,6 @@ html {
 }
 
 body {
-
   /* Margin bottom by footer height plus a 'margin-top: 15px' */
   // margin-bottom: calculate-rem($footer-height + $footer-margin-top);
   margin-bottom: calculate-rem($footer-height);
@@ -62,10 +61,6 @@ hr.light {
   border-radius: calculate-rem(3px);
   border: calculate-rem(1px) solid #B8B8B8;
   background-color: #ffffff;
-
-  -webkit-transition: all 0.4s;
-  -o-transition: all 0.4s;
-  -moz-transition: all 0.4s;
   transition: all 0.4s;
 }
 
@@ -253,13 +248,13 @@ hr.light {
 // ---------------------------------------------------------------
 
 // Drag And Drop
-// @import "./drag-and-drop.scss";
+// @import './drag-and-drop.scss';
 
 // FONTS
-@import "./global-fonts.scss";
+@import './global-fonts.scss';
 
 // BACKGROUNDS
-@import "./global-backgrounds.scss";
+@import './global-backgrounds.scss';
 
 // COLORS
-@import "./global-colors.scss";
+@import './global-colors.scss';
