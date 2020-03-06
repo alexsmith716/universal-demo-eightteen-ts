@@ -5,3 +5,4 @@
 * Device State (prefetched data) && InfoBar should be part of Footer
 
 * ----------------------------------------
+* ----------------------------------------

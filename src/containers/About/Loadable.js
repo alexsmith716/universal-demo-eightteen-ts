@@ -13,6 +13,15 @@ import universal from 'react-universal-component';
 //   ]).then(proms => proms[0])
 // }))
 
+// import path from 'path';
+// const AboutLoadable = universal(() => import(/* webpackChunkName: 'about' */ './About'), {
+//   path: path.resolve(__dirname, './About'),
+//   resolve: () => require.resolveWeak('./About'),
+//   chunkName: 'about',
+//   minDelay: 500
+// })
+// export default AboutLoadable;
+
 const AboutLoadable = universal(() => import('./About'));
 
 export default AboutLoadable;
@@ -20,7 +29,6 @@ export default AboutLoadable;
 // -----------------------------------
 
 // https://github.com/faceyspacey/babel-plugin-universal-import
-
 // https://github.com/faceyspacey/react-universal-component#api-and-options >>>>> "asyncComponent"
 
 // asyncComponent:
