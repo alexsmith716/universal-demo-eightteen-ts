@@ -9,20 +9,16 @@
 
   @if (type-of($testSize) == number) {
 
-    @if (unit($testSize) != "px") {
+    @if (unit($testSize) != 'px') {
 
-      @error "`#{$testSize}` needs to be a PIXEL value.";
-
-    } 
-
+      @error '`#{$testSize}` needs to be a PIXEL value.';
+    }
   } @else {
 
-    @error "`#{$testSize}` needs to be a NUMBER.";
-
+    @error '`#{$testSize}` needs to be a NUMBER.';
   }
 
   @return $testSize;
-
 }
 
 // --------------------------------------------------------------------------------
@@ -30,11 +26,9 @@
 @function calculate-rem($size) {
 
   $testedSize: test-number-unit($size);
-
   $returnedValue: $testedSize / $font-size-browser-default;
 
   @return #{$returnedValue}rem;
-
 }
 
 // --------------------------------------------------------------------------------
