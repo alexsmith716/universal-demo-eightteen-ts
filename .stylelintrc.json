@@ -22,13 +22,20 @@
     "string-quotes": "single",
     "at-rule-empty-line-before": [
       "always", {
-        "ignoreAtRules": [ "else" ]
+        "ignoreAtRules": [
+          "else",
+          "include",
+          "import"
+        ]
       }
     ],
     "block-opening-brace-space-before": "always",
     "block-closing-brace-newline-after": [
       "always", {
-        "ignoreAtRules": [ "if", "else" ]
+        "ignoreAtRules": [
+          "if",
+          "else"
+        ]
       }
     ],
     "at-rule-name-space-after": "always",
