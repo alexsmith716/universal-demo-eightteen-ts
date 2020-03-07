@@ -11,7 +11,7 @@
 // GO WITH ALL THE DEFAULT FONTS
 // UNCOMMENT LINE 14
 // COMMENT-OUT LINES 21-27
-@import "~font-awesome/scss/font-awesome.scss";
+@import '~font-awesome/scss/font-awesome.scss';
 
 // CHOICE 2:
 // MODIFY THE DEFAULT FONTS (refer to '../fontAwesome/customizations/pathModified.scss')
@@ -20,16 +20,16 @@
 
 // $fa-font-path: "~font-awesome/fonts";
 
-// @import "~font-awesome/scss/_variables.scss";
-// @import "~font-awesome/scss/_mixins.scss";
+// @import '~font-awesome/scss/_variables.scss';
+// @import '~font-awesome/scss/_mixins.scss';
 
-// @import "../fontAwesome/pathModified.scss";
-// @import "../fontAwesome/font-awesome-modified.scss";
+// @import '../fontAwesome/pathModified.scss';
+// @import '../fontAwesome/font-awesome-modified.scss';
 
 // -------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------
 
-@import "./mixins.scss";
+@import './mixins.scss';
 
-@import "./app.scss";
+@import './app.scss';
