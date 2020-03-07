@@ -1,35 +1,21 @@
 {
-  "plugins": [
-    "stylelint-scss"
-  ],
+  "extends": "stylelint-config-standard",
   "rules": {
-    "block-no-empty": true,
-    "color-no-invalid-hex": true,
-    "font-family-name-quotes": "always-where-recommended",
-    "indentation": [2],
-    "max-empty-lines": 2,
+    "at-rule-no-unknown": [ true, {
+      "ignoreAtRules": [
+        "extend",
+        "include",
+        "mixin",
+        "if",
+        "else",
+        "for",
+        "function",
+        "return",
+        "error"
+      ]
+    }],
     "property-no-vendor-prefix": true,
     "selector-no-vendor-prefix": true,
-    "selector-pseudo-class-no-unknown": [
-      true,
-      {
-        "ignorePseudoClasses": ["export","import","global","local"]
-      }
-    ],
-    "string-quotes": "single",
-    "unit-whitelist": [
-      "px",
-      "em",
-      "rem",
-      "vw",
-      "vh",
-      "deg",
-      "ms",
-      "%",
-      "s",
-      "dpi",
-      "pt",
-      "fr"
-    ]
+    "string-quotes": "single"
   }
 }
