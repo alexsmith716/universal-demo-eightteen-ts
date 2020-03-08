@@ -1,70 +1,48 @@
 @import '../../sharedresources.scss';
 
-.loading:after {
+.loading::after {
   overflow: hidden;
   display: inline-block;
   vertical-align: bottom;
-  -webkit-animation: ellipsis steps(4,end) 900ms infinite;      
-  animation: ellipsis steps(4,end) 900ms infinite;
-  content: "\2026"; /* ascii code for the ellipsis character */
-  width: 0px;
+  animation: ellipsis steps(4, end) 900ms infinite;
+  content: '\2026'; /* ascii code for the ellipsis character */
 }
 
 @keyframes ellipsis {
-  to {
-    width: 20px;    
-  }
-}
 
-@-webkit-keyframes ellipsis {
   to {
-    width: 20px;    
+    width: 20px;
   }
 }
 
 .one {
   opacity: 10;
-  -webkit-animation: dot 1.3s infinite;
-  -webkit-animation-delay: 0.0s;
   animation: dot 1.3s infinite;
-  animation-delay: 0.0s;
+  animation-delay: 0s;
 }
 
 .two {
   opacity: 10;
-  -webkit-animation: dot 1.3s infinite;
-  -webkit-animation-delay: 0.2s;
   animation: dot 1.3s infinite;
   animation-delay: 0.2s;
 }
 
 .three {
   opacity: 10;
-  -webkit-animation: dot 1.3s infinite;
-  -webkit-animation-delay: 0.3s;
   animation: dot 1.3s infinite;
   animation-delay: 0.3s;
 }
 
-@-webkit-keyframes dot {
-  0% {
-    opacity: .25;
-  }
-  50% {
-    opacity: .25;
-  }
-  100% {
-    opacity: 1;
-  }
-}
-
 @keyframes dot {
+
   0% {
-    opacity: .25;
+    opacity: 0.25;
   }
+
   50% {
-    opacity: .25;
+    opacity: 0.25;
   }
+
   100% {
     opacity: 1;
   }

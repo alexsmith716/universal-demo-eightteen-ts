@@ -45,7 +45,7 @@
     // @include color-turquoise;
     @include tester-font3;
   }
- 
+
   h2 {
     font-size: calculate-rem(32px);
     @include color-darkorange;
@@ -86,6 +86,7 @@
   }
 
   @media (min-width: 992px) {
+
     h1 {
       font-size: 4.7rem;
     }
@@ -102,5 +103,4 @@
       font-size: 1.6rem;
     }
   }
-
 }

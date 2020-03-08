@@ -20,7 +20,7 @@
     "check-types-t": "tsc --traceResolution",
     "check-types-w": "tsc --watch",
     "check-types": "tsc --noEmit true",
-    "lint:scss": "stylelint src/theme/**/*.scss",
+    "lint:scss": "stylelint \"**/*.scss\"",
     "lint": "eslint bin/**/*.js",
     "lint:fix": "eslint bin/**/*.js --fix",
     "prettier": "prettier --config .prettierrc --write \"./+(bin)/**/*.{js}\" \"!.node_modules/**\""
