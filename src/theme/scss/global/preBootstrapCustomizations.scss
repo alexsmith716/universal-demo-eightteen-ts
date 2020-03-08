@@ -16,7 +16,7 @@
 // -----------------------------------------------------------
 
 // $body-bg: $white !default;
-$body-bg: #F7F7F7; // gray 97
+$body-bg: #f7f7f7; // gray 97
 
 // --------------------------------------------------------------------------
 // --------------------------------------------------------------------------
@@ -39,7 +39,7 @@ $body-bg: #F7F7F7; // gray 97
 // .875rem = 14px / 16px
 // changing default font size from (1rem/16px) to (.875rem/14px)
 
-$font-size-base: .875rem;
+$font-size-base: 0.875rem;
 
 // --------------------------------------------------------------------------
 // --------------------------------------------------------------------------
@@ -48,6 +48,6 @@ $font-size-base: .875rem;
 
 $navbar-dark-color: #c6e2ff;
 // $input-color: #9b30ff;
-// $input-border-color: #ffff00;
-$dropdown-bg: #ffff00;  // <<<<<<<<<<<<< yellow: FFFF00
+// $input-border-color: #ff0;
+$dropdown-bg: #ff0;  // <<<<<<<<<<<<< yellow: FFFF00
 // $dropdown-bg: #fffafa;  // <<<<<<<<<<<<< snow: FFFAFA
