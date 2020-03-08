@@ -7,20 +7,19 @@
 
   .register {
     width: calculate-rem(650px);
-  
+
     .formTitle {
       font-size: calculate-rem(24px);
-      color: #00008B;
+      color: #00008b;
       text-align: center;
       width: 100%;
     }
-  
+
     .formContainer {
       padding: calculate-rem(15px);
       border: calculate-rem(1px) solid #d8dee2;
       border-radius: calculate-rem(6px);
-      background-color: #ffffff;
-
+      background-color: #fff;
     }
   }
 }

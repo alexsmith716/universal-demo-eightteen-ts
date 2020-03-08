@@ -7,24 +7,24 @@
 
   .login {
     width: calculate-rem(400px);
-  
+
     .formTitle {
       font-size: calculate-rem(24px);
-      color: #00008B;
+      color: #00008b;
       text-align: center;
       width: 100%;
     }
-  
+
     .formContainer {
       padding: calculate-rem(15px) calculate-rem(15px);
       border: calculate-rem(1px) solid #d8dee2;
       border-radius: calculate-rem(6px);
-      background-color: #ffffff;
+      background-color: #fff;
 
       .signInWith {
         text-align: center;
         color: #696969;
-        line-height: calculate-rem(50px);;
+        line-height: calculate-rem(50px);
       }
     }
 
@@ -32,7 +32,8 @@
       padding: calculate-rem(15px) calculate-rem(15px);
       border: calculate-rem(1px) solid #d8dee2;
       border-radius: calculate-rem(6px);
-      background-color: #ffffff;
+      background-color: #fff;
+
       a {
         padding-left: calculate-rem(8px);
       }
