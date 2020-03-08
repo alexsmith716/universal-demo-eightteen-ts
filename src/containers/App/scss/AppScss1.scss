@@ -2,6 +2,7 @@
 @import '../../sharedresources.scss';
 
 .app {
+
   nav :global(.fas) {
     padding-top: 4px;
   }
@@ -19,9 +20,9 @@
 }
 
 // used for fixed-top navbar
-.appContent {
-  // margin-top: calculate-rem(53px);
-}
+// .appContent {
+//   margin-top: calculate-rem(53px);
+// }
 
 .appInfoBar {
   margin-top: calculate-rem(15px);
@@ -29,8 +30,8 @@
 
 .notifs {
   margin: calculate-rem(15px) 0;
-  color: #F0F8FF;
-  border: 3px solid #F0F8FF;
+  color: #f0f8ff;
+  border: 3px solid #f0f8ff;
 }
 
 .footer {
@@ -42,8 +43,9 @@
   background-color: $shared-var-color-syracuse-orange;
   // @extend %footerHeight;
   height: calculate-rem($footer-height);
+
   .copyright {
-    color: #FFFFFF;
+    color: #fff;
     @include lobster-v20-latin-regular-font;
   }
 }

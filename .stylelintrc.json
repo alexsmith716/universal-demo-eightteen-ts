@@ -17,8 +17,22 @@
         "error"
       ]
     }],
+    "indentation": [
+      2,
+      {
+        "except": [
+          "value"
+        ]
+      }
+    ],
     "property-no-vendor-prefix": true,
     "selector-no-vendor-prefix": true,
+    "selector-pseudo-class-no-unknown": [ true, {
+      "ignorePseudoClasses": [
+        "local",
+        "global"
+      ]
+    }],
     "string-quotes": "single",
     "at-rule-empty-line-before": [
       "always", {

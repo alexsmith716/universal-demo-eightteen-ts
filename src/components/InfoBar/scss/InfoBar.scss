@@ -4,8 +4,10 @@
   @include philosopher-bold-webfont-font;
 
   .message {
-    color: #EE2C2C;
+    color: #ee2c2c;
+
     @include roboto-mono-v4-latin-regular-font;
+
     font-size: small;
   }
 }
