@@ -48,6 +48,7 @@
 // --------------------------------------------------------------------------------
 
 @mixin courier-font() {
+  /* stylelint-disable-next-line */
   font-family: 'Courier';
 }
 
@@ -76,5 +77,6 @@
 }
 
 @mixin tester-font4() {
+  /* stylelint-disable-next-line */
   font-family: 'American Typewriter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
