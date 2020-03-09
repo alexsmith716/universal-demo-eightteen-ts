@@ -21,8 +21,8 @@
     "check-types-w": "tsc --watch",
     "check-types": "tsc --noEmit true",
     "lint:scss": "stylelint \"**/*.scss\"",
-    "lint": "eslint bin/**/*.js",
-    "lint:fix": "eslint bin/**/*.js --fix",
+    "lint": "eslint bin/",
+    "lint:fix": "eslint bin/ --fix",
     "prettier": "prettier --config .prettierrc --write \"./+(bin)/**/*.{js}\" \"!.node_modules/**\""
   },
   "dependencies": {
@@ -109,6 +109,7 @@
     "eslint-config-prettier": "^6.7.0",
     "eslint-loader": "^3.0.3",
     "eslint-plugin-import": "^2.20.1",
+    "eslint-plugin-json": "^2.1.0",
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-react": "^7.18.3",
     "eslint-plugin-react-hooks": "^2.4.0",

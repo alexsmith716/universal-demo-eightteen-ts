@@ -11,29 +11,32 @@ const webpackHotMiddleware = require('webpack-hot-middleware');
 const webpackHotServerMiddleware = require('webpack-hot-server-middleware');
 const { getUserAgent } = require('../src/utils/device');
 const { isBot } = require('../src/utils/device');
+const logger = require('../src/utils/logger');
 // const device = require('../src/utils/device'); // getUserAgent isBot
+
+/* eslint-disable global-require */
 
 const host = process.env.HOST || 'localhost';
 const port = process.env.PORT || 8080;
 
-console.log('>>>>>>>>>>>>>>>>> START > __CLIENT__ ?: ', __CLIENT__);
-console.log('>>>>>>>>>>>>>>>>> START > __SERVER__ ?: ', __SERVER__);
-console.log('>>>>>>>>>>>>>>>>> START > __DEVELOPMENT__ ?: ', __DEVELOPMENT__);
-console.log('>>>>>>>>>>>>>>>>> START > __DISABLE_SSR__ ?: ', __DISABLE_SSR__);
-console.log('>>>>>>>>>>>>>>>>> START > __DLLS__ ?: ', __DLLS__);
-console.log('>>>>>>>>>>>>>>>>> START > HOST ?: ', host);
-console.log('>>>>>>>>>>>>>>>>> START > PORT ?: ', port);
+logger.log('>>>>>>>>>>>>>>>>> START > __CLIENT__ ?: ', __CLIENT__);
+logger.log('>>>>>>>>>>>>>>>>> START > __SERVER__ ?: ', __SERVER__);
+logger.log('>>>>>>>>>>>>>>>>> START > __DEVELOPMENT__ ?: ', __DEVELOPMENT__);
+logger.log('>>>>>>>>>>>>>>>>> START > __DISABLE_SSR__ ?: ', __DISABLE_SSR__);
+logger.log('>>>>>>>>>>>>>>>>> START > __DLLS__ ?: ', __DLLS__);
+logger.log('>>>>>>>>>>>>>>>>> START > HOST ?: ', host);
+logger.log('>>>>>>>>>>>>>>>>> START > PORT ?: ', port);
 
 const unhandledRejections = new Map();
 
 process.on('unhandledRejection', (reason, promise) => {
-  console.error('>>>>>>>> BIN > START > process > Unhandled Rejection at promise:', promise);
-  console.error('>>>>>>>> BIN > START > process > Unhandled Rejection reason:', reason);
+  logger.error('>>>> BIN > START > process > Unhandled Rejection at promise:', promise);
+  logger.error('>>>> BIN > START > process > Unhandled Rejection reason:', reason);
   unhandledRejections.set(promise, reason);
 });
 
 process.on('rejectionHandled', (promise) => {
-  console.error('>>>>>>>> BIN > START > process > rejectionHandled > promise:', promise);
+  logger.error('>>>> BIN > START > process > rejectionHandled > promise:', promise);
   unhandledRejections.delete(promise);
 });
 
@@ -45,17 +48,17 @@ app.use(morgan('dev'));
 app.use(compression());
 
 app.use((req, res, next) => {
-  console.log('>>>>>>>>>>>>>>>>> START > REQUEST IN <<<<<<<<<<<<<<<<<<<<<<<');
-  // console.log('>>>>>>>>>>>>>>>>> START > REQ.ip +++++++++++++: ', req.ip);
-  console.log('>>>>>>>>>>>>>>>>> START > REQ.method +++++++++++++++: ', req.method);
-  console.log('>>>>>>>>>>>>>>>>> START > REQ.url ++++++++++++++++++: ', req.url);
-  console.log('>>>>>>>>>>>>>>>>> START > REQ.path ++++++++++++++++++: ', req.path);
-  // console.log('>>>>>>>>>>>>>>>>> START > REQ.headers ++++++++++++++: ', req.headers);
-  // console.log('>>>>>>>>>>>>>>>>> START > REQ.cookies ++++++++++++++: ', req.cookies);
-  // console.log('>>>>>>>>>>>>>>>>> START > REQ.session ++++++++: ', req.session);
-  // console.log('>>>>>>>>>>>>>>>>> START > REQ.params +++++++++: ', req.params);
-  console.log('>>>>>>>>>>>>>>>>> START > REQ.originalUrl ++++: ', req.originalUrl);
-  console.log('>>>>>>>>>>>>>>>>> START > REQUEST OUT <<<<<<<<<<<<<<<<<<<<<<<');
+  logger.log('>>>>>>>>>>>>>>>>> START > REQUEST IN <<<<<<<<<<<<<<<<<<<<<<<');
+  // logger.log('>>>>>>>>>>>>>>>>> START > REQ.ip +++++++++++++: ', req.ip);
+  logger.log('>>>>>>>>>>>>>>>>> START > REQ.method +++++++++++++++: ', req.method);
+  logger.log('>>>>>>>>>>>>>>>>> START > REQ.url ++++++++++++++++++: ', req.url);
+  logger.log('>>>>>>>>>>>>>>>>> START > REQ.path ++++++++++++++++++: ', req.path);
+  // logger.log('>>>>>>>>>>>>>>>>> START > REQ.headers ++++++++++++++: ', req.headers);
+  // logger.log('>>>>>>>>>>>>>>>>> START > REQ.cookies ++++++++++++++: ', req.cookies);
+  // logger.log('>>>>>>>>>>>>>>>>> START > REQ.session ++++++++: ', req.session);
+  // logger.log('>>>>>>>>>>>>>>>>> START > REQ.params +++++++++: ', req.params);
+  logger.log('>>>>>>>>>>>>>>>>> START > REQ.originalUrl ++++: ', req.originalUrl);
+  logger.log('>>>>>>>>>>>>>>>>> START > REQUEST OUT <<<<<<<<<<<<<<<<<<<<<<<');
   next();
 });
 
@@ -75,25 +78,16 @@ const done = () => {
   if (!isBuilt) {
     server.listen(port, host, (err) => {
       isBuilt = true;
-      console.log('>>>>>>>> BIN > START > STATS COMPILER HAS COMPLETED BUILD !! WAIT IS OVER !');
+      logger.end('>>>> BIN > START > STATS COMPILER HAS COMPLETED BUILD !! WAIT IS OVER !');
       if (err) {
-        console.error('>>>>>>>> BIN > START > ERROR:', err);
+        logger.error('>>>> BIN > START > ERROR:', err);
       }
-      // console.log(
-      //   ">>>>>>>>>>>>> BIN > LOCALSTART > DONE > process.memoryUsage(): ",
-      //   process.memoryUsage()
-      // );
-      // const used = process.memoryUsage().heapUsed / 1024 / 1024;
-      // console.log(
-      //   `LOCALSTART.JS: The script uses approximately ${Math.round(used * 100) /
-      //     100} MB`
-      // );
     });
   }
 };
 
-console.log('>>>>>>>> BIN > START > __DEVELOPMENT__ ?: ', __DEVELOPMENT__);
-console.log('>>>>>>>> BIN > START > STATS COMPILER ATTEMPTING BUILD ! PLEASE WAIT ! ...');
+logger.start(`>>>> BIN > START > __DEVELOPMENT__ ?: ${__DEVELOPMENT__}`);
+logger.start('>>>> BIN > START > STATS COMPILER ATTEMPTING BUILD ! PLEASE WAIT ! ...');
 
 if (__DEVELOPMENT__) {
   const clientConfigDev = require('../webpack/dev.client');
@@ -103,11 +97,8 @@ if (__DEVELOPMENT__) {
   const serverOptions = { publicPath };
 
   app.use('/dlls/:dllName.js', (req, res, next) => {
-    console.log('>>>>>>>>>>>>>>>>> START > app.use > DLLs <<<<<<<<<<<<<<<<<<<<<<<');
-    /* eslint-disable max-len */
-    fs.access(path.join(__dirname, '..', 'build', 'dlls', `${req.params.dllName}.js`), fs.constants.R_OK, (err) =>
-      err ? res.send(`################## NO DLL !!! (${req.originalUrl})') ##################`) : next()
-    );
+    const dllPath = path.join(__dirname, '..', 'build', 'dlls', `${req.params.dllName}.js`);
+    fs.access(dllPath, fs.constants.R_OK, (err) => (err ? res.send(`NO DLL: (${req.originalUrl})')`) : next()));
   });
 
   const compiler = webpack([clientConfigDev, serverConfigDev]);
@@ -130,9 +121,9 @@ if (__DEVELOPMENT__) {
 
   webpack([clientConfigProd, serverConfigProd]).run((err, stats) => {
     if (err) {
-      console.error('>>>>>>>> BIN > START > WEBPACK COMPILE > PROD > err: ', err.stack || err);
+      logger.error('>>>> BIN > START > PROD > err: ', err.stack || err);
       if (err.details) {
-        console.error('>>>>>>>> BIN > START > WEBPACK COMPILE > PROD > err.details: ', err.details);
+        logger.error('>>>> BIN > START > PROD > err.details: ', err.details);
       }
       return;
     }
@@ -141,13 +132,13 @@ if (__DEVELOPMENT__) {
 
     // if (stats.hasErrors()) {
     //   console.error(
-    //     ">>>>>>>> BIN > START > WEBPACK COMPILE > PROD > stats.hasErrors: ",
+    //     ">>>> BIN > START > WEBPACK COMPILE > PROD > stats.hasErrors: ",
     //     clientStats.errors
     //   );
     // }
     // if (stats.hasWarnings()) {
     //   console.warn(
-    //     ">>>>>>>> BIN > START > WEBPACK COMPILE > PROD > stats.hasWarnings: ",
+    //     ">>>> BIN > START > WEBPACK COMPILE > PROD > stats.hasWarnings: ",
     //     clientStats.warnings
     //   );
     // }
@@ -156,14 +147,15 @@ if (__DEVELOPMENT__) {
     const serverStats = stats.toJson().children[1];
 
     if (stats.hasErrors()) {
-      console.error('>>>>>>>> BIN > START > WEBPACK COMPILE > PROD > clientStats.hasErrors: ', clientStats.errors);
-      console.error('>>>>>>>> BIN > START > WEBPACK COMPILE > PROD > serverStats.hasErrors: ', serverStats.errors);
+      logger.error('>>>> BIN > START > clientStats.hasErrors: ', clientStats.errors);
+      logger.error('>>>> BIN > START > serverStats.hasErrors: ', serverStats.errors);
     }
     if (stats.hasWarnings()) {
-      console.warn('>>>>>>>> BIN > START > WEBPACK COMPILE > PROD > clientStats.hasWarnings: ', clientStats.warnings);
-      console.warn('>>>>>>>> BIN > START > WEBPACK COMPILE > PROD > serverStats.hasWarnings: ', serverStats.warnings);
+      logger.warn('>>>> BIN > START > clientStats.warnings: ', clientStats.warnings);
+      logger.warn('>>>> BIN > START > clientStats.warnings: ', serverStats.warnings);
     }
 
+    // eslint-disable-next-line import/no-unresolved
     const serverRender = require('../build/server/server.js').default;
 
     app.use(serverRender({ clientStats }));
@@ -172,53 +164,41 @@ if (__DEVELOPMENT__) {
   });
 }
 
-// console.log(
-//   ">>>>>>>>>>>>> BIN > LOCALSTART > process.memoryUsage(): ",
-//   process.memoryUsage()
-// );
-console.log('>>>>>>>>>>>>> BIN > START > Node > process.nextTick() > START <<<<<<<<<<<<<<<<');
-
-process.nextTick(() => {
-  console.log('>>>>>>>>>>>>> BIN > START > Node > process.nextTick() > nextTick CALLBACK <<<<<<<<<<<<<<<<<<<');
-});
-
-console.log('>>>>>>>>>>>>> BIN > START > Node > process.nextTick() > SCHEDULED <<<<<<<<<<<<');
-
 const gracefulShutdown = (msg, cb) => {
-  console.log(`>>>>>>>> BIN > START > Mongoose Connection closed through: ${msg}`);
+  logger.log(`>>>> BIN > START > Mongoose Connection closed through: ${msg}`);
   cb();
 };
 
 process.on('exit', code => {
-  console.log(`>>>>>>>> BIN > START > About to exit with code: ${code}`);
+  logger.log(`>>>> BIN > START > About to exit with code: ${code}`);
 });
 
 process.on('warning', warning => {
-  console.warn('>>>>>>>> BIN > START > Node process warning.name:', warning.name);
-  console.warn('>>>>>>>> BIN > START > Node process warning.message:', warning.message);
-  console.warn('>>>>>>>> BIN > START > Node process warning.stack:', warning.stack);
+  logger.warn('>>>> BIN > START > Node process warning.name:', warning.name);
+  logger.warn('>>>> BIN > START > Node process warning.message:', warning.message);
+  logger.warn('>>>> BIN > START > Node process warning.stack:', warning.stack);
 });
 
 process.on('SIGINT', m => {
-  console.log('>>>>>>>> BIN > START > CHILD got Node process SIGINT message:', m);
+  logger.log('>>>> BIN > START > CHILD got Node process SIGINT message:', m);
   gracefulShutdown('app termination', () => {
-    console.log('>>>>>>>> BIN > START > Mongoose SIGINT gracefulShutdown');
+    logger.log('>>>> BIN > START > Mongoose SIGINT gracefulShutdown');
     process.exit(0);
   });
 });
 
 process.once('SIGUSR2', m => {
-  console.log('>>>>>>>> BIN > START > CHILD got Node process SIGUSR2 message:', m);
+  logger.log('>>>> BIN > START > CHILD got Node process SIGUSR2 message:', m);
   gracefulShutdown('nodemon restart', () => {
-    console.log('>>>>>>>> BIN > START > Mongoose SIGUSR2 gracefulShutdown');
+    logger.log('>>>> BIN > START > Mongoose SIGUSR2 gracefulShutdown');
     process.kill(process.pid, 'SIGUSR2');
   });
 });
 
 process.on('SIGTERM', m => {
-  console.log('>>>>>>>> BIN > START > CHILD got Node process SIGTERM message:', m);
+  logger.log('>>>> BIN > START > CHILD got Node process SIGTERM message:', m);
   gracefulShutdown('Heroku app termination', () => {
-    console.log('>>>>>>>> BIN > START > Mongoose SIGTERM gracefulShutdown');
+    logger.log('>>>> BIN > START > Mongoose SIGTERM gracefulShutdown');
     process.exit(0);
   });
 });
