@@ -128,21 +128,6 @@ if (__DEVELOPMENT__) {
       return;
     }
 
-    // const clientStats = stats.toJson().children[0];
-
-    // if (stats.hasErrors()) {
-    //   console.error(
-    //     ">>>> BIN > START > WEBPACK COMPILE > PROD > stats.hasErrors: ",
-    //     clientStats.errors
-    //   );
-    // }
-    // if (stats.hasWarnings()) {
-    //   console.warn(
-    //     ">>>> BIN > START > WEBPACK COMPILE > PROD > stats.hasWarnings: ",
-    //     clientStats.warnings
-    //   );
-    // }
-
     const clientStats = stats.toJson().children[0];
     const serverStats = stats.toJson().children[1];
 
