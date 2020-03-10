@@ -1,7 +1,4 @@
 
-export RouterTrigger from './RouterTrigger/RouterTrigger';
-export RouterTriggerTEST from './RouterTriggerTEST/RouterTriggerTEST';
-
 import { Footer } from './Footer';
 import { Notifs } from './Notifs';
 import { InfoBar } from './InfoBar';
