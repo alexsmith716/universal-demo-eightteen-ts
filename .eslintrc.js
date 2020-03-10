@@ -56,6 +56,12 @@ module.exports = {
     'no-this-before-super': 2,
     'prefer-spread': 2,
     'arrow-parens': 0,
+    'max-len': [
+      'error',
+      {
+        code: 110,
+      },
+    ],
     'no-warning-comments': [1, { terms: ['todo', 'fixme'], location: 'start' }],
     'no-underscore-dangle': 'off',
     'react/sort-comp': 0,
