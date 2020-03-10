@@ -1,7 +1,6 @@
 module.exports = {
   extends: [
     'airbnb',
-    'plugin:json/recommended',
     // 'eslint:recommended',
     // 'plugin:react/recommended',
     // 'plugin:@typescript-eslint/recommended',
@@ -12,22 +11,21 @@ module.exports = {
 
   env: {
     browser: true,
-    es6: true,
+    // es6: true,
     jest: true,
-    node: true,
+    // node: true,
   },
 
   plugins: [
     // '@typescript-eslint',
-    'json',
     'react-hooks'
     // 'prettier',
   ],
 
   parser: 'babel-eslint',
   parserOptions: {
-    //ecmaVersion: 2018,
-    //sourceType: 'module',
+    // ecmaVersion: 2018,
+    // sourceType: 'module',
     // ecmaFeatures: {
     //   jsx: true,
     // },
@@ -64,6 +62,8 @@ module.exports = {
     'react/jsx-filename-extension': [1, { extensions: ['.js', '.jsx'] }],
     'react/jsx-fragments': 'error',
     'react/jsx-no-useless-fragment': 'error',
+    'react/jsx-one-expression-per-line': 'off',
+    'react/jsx-props-no-spreading': 'off',
     'react/require-extension': 'off',
     'react/destructuring-assignment': 'off',
     'react/no-access-state-in-setstate': 'off',

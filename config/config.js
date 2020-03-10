@@ -1,12 +1,12 @@
 const environment = {
   development: {
     isProduction: false,
-    assetsPath: `http://${process.env.HOST || 'localhost'}:${+process.env.PORT || 3000}/dist`
+    assetsPath: `http://${process.env.HOST || 'localhost'}:${+process.env.PORT || 3000}/dist`,
   },
   production: {
     isProduction: true,
-    assetsPath: '/dist'
-  }
+    assetsPath: '/dist',
+  },
 }[process.env.NODE_ENV || 'development'];
 
 const config = {
@@ -35,8 +35,8 @@ const config = {
         { property: 'og:site', content: 'dev' },
         { property: 'og:creator', content: 'dev' },
         { property: 'og:image:width', content: '200' },
-        { property: 'og:image:height', content: '200' }
-      ]
+        { property: 'og:image:height', content: '200' },
+      ],
     },
     csp: {
       directives: {
@@ -53,7 +53,7 @@ const config = {
         'frame-ancestors': [],
       },
     },
-  }
+  },
 };
 
 Object.assign(config, environment);
