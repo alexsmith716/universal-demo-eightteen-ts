@@ -32,14 +32,14 @@ function installVendorDLL(config, dllName) {
   // context: context of requests in the manifest (or content property)
   // manifest: path of the JSON manifest to be loaded upon compilation
   if (manifest) {
-    console.log(`>>>>>>>>>>>> dllreferenceplugin > installVendorDLL: will be using the ${dllName} DLL`);
+    // console.log(`>>>>>>>>>>>> dllreferenceplugin > installVendorDLL: will be using the ${dllName} DLL`);
     config.plugins.push(new webpack.DllReferencePlugin({
       context: projectRootPath,       
       manifest: manifest
     }));
 
   } else {
-    console.log('>>>>>>>>>>>> dllreferenceplugin > installVendorDLL > No Manifest <<<<<<<<<<<<<<<');
+    // console.log('>>>>>>>>>>>> dllreferenceplugin > installVendorDLL > No Manifest <<<<<<<<<<<<<<<');
   }
 };
 
@@ -47,14 +47,14 @@ function installVendorDLL(config, dllName) {
 
 function loadDLLManifest(filePath) {
   try {
-    console.log('>>>>>>>>>>>> dllreferenceplugin > loadDLLManifest > GOOD <<<<<<<<<<<<<<<');
+    // console.log('>>>>>>>>>>>> dllreferenceplugin > loadDLLManifest > GOOD <<<<<<<<<<<<<<<');
     return require(filePath);
   }
   catch (e) {
     process.env.WEBPACK_DLLS = '0';
-    console.log('>>>>>>>>>>>> dllreferenceplugin > loadDLLManifest > Error: ', e);
+    // console.log('>>>>>>>>>>>> dllreferenceplugin > loadDLLManifest > Error: ', e);
   }
-  console.log('>>>>>>>>>>>> dllreferenceplugin > loadDLLManifest > Undefined <<<<<<<<<<<<<<<');
+  // console.log('>>>>>>>>>>>> dllreferenceplugin > loadDLLManifest > Undefined <<<<<<<<<<<<<<<');
   return undefined;
 }
 
@@ -79,7 +79,7 @@ function isValidDLLs(dllNames, assetsPath) {
       console.warn('>>>>>>>>>>>> dllreferenceplugin > isValidDLLs > Error: ', e);
       return false;
     }
-    console.log('>>>>>>>>>>>> dllreferenceplugin > isValidDLLs > Valid <<<<<<<<<<<<<<<');
+    // console.log('>>>>>>>>>>>> dllreferenceplugin > isValidDLLs > Valid <<<<<<<<<<<<<<<');
     return true;
   });
 }

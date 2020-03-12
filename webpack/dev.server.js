@@ -13,18 +13,6 @@ const generatedIdent = (name, localName) => `${name}__${localName}`;
 
 // ===============================
 
-// const babelrc = fs.readFileSync('./.babelrc', 'utf8');
-// let prodconfig = {};
-// try {
-//   prodconfig = JSON.parse(babelrc);
-//   console.error('>>>> webpack prod.server > SUCCESS: parsing .babelrc typeof: ', typeof prodconfig)
-//   console.error('>>>> webpack prod.server > SUCCESS: parsing .babelrc: ', prodconfig)
-// } catch (err) {
-//   console.error('>>>> webpack prod.server > ERROR: parsing .babelrc: ', err)
-// }
-
-// ===============================
-
 // server bundle targeting 'node'
 // entry point to server bundle ('server.js') renders to string
 module.exports = {
@@ -52,21 +40,15 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.jsx?$/,
+        test: /\.(ts|js)x?$/,
         exclude: /node_modules/,
         loader: 'babel-loader',
-      },
-      {
-        test: /\.tsx?$/,
-        loader: [
-          'babel-loader',
-          {
-            loader: 'awesome-typescript-loader',
-            options: {
-              // useCache: true,
-            },
-          },
-        ],
+        options: {
+          babelrc: false,
+          configFile: path.resolve(rootPath, 'babel.config.server.js'),
+          // cacheDirectory: true,
+          // cacheCompression: false,
+        },
       },
       {
         test: /\.(scss)$/,
@@ -171,6 +153,7 @@ module.exports = {
         loader: 'url-loader',
         options: {
           limit: 10240,
+          esModule: false,
         },
       },
       {
@@ -179,6 +162,7 @@ module.exports = {
         options: {
           limit: 10240,
           mimetype: 'application/font-woff',
+          esModule: false,
         },
       },
       {
@@ -187,14 +171,15 @@ module.exports = {
         options: {
           limit: 10240,
           mimetype: 'application/octet-stream',
+          esModule: false,
         },
       },
       {
         test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
         loader: 'file-loader',
-        // options: {
-        //   name: '[path][name].[ext]',
-        // },
+        options: {
+          esModule: false,
+        },
       },
       {
         test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
@@ -202,6 +187,7 @@ module.exports = {
         options: {
           limit: 10240,
           mimetype: 'image/svg+xml',
+          esModule: false,
         },
       },
     ],
@@ -212,8 +198,7 @@ module.exports = {
   },
 
   resolve: {
-    // modules: [ 'client', 'node_modules' ],
-    extensions: ['.json', '.js', '.jsx', '.scss'],
+    extensions: ['.ts', '.tsx', '.js', '.json', '.jsx', '.css', '.scss'],
   },
 
   plugins: [

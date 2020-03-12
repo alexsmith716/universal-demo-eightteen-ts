@@ -7,8 +7,12 @@ const dllHelpers = require('./dllreferenceplugin');
 // const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 // const { DuplicatesPlugin } = require('inspectpack/plugin');
 
-const rootPath = path.resolve(__dirname, '..');
-const assetsPath = path.resolve(__dirname, '../build/dist');
+// const rootPath = path.resolve(__dirname, '..');
+// const assetsPath = path.resolve(__dirname, '../build/dist');
+
+const rootPath = path.resolve(__dirname, '../');
+const buildPath = path.resolve(rootPath, './build');
+const assetPath = path.resolve(rootPath, './build/dist');
 
 const host = process.env.HOST || 'localhost';
 const port = process.env.PORT;
@@ -71,7 +75,7 @@ const webpackConfig = {
   output: {
     filename: '[name].js',
     chunkFilename: '[name].chunk.js',
-    path: assetsPath,
+    path: assetPath,
     publicPath: `http://${host}:${port}/dist/`,
     // publicPath: '/dist/',
   },
@@ -81,22 +85,15 @@ const webpackConfig = {
   module: {
     rules: [
       {
-        test: /\.jsx?$/,
+        test: /\.(ts|js)x?$/,
         exclude: /node_modules/,
-        // options: babelLoaderQuery,
         loader: 'babel-loader',
-      },
-      {
-        test: /\.tsx?$/,
-        loader: [
-          'babel-loader',
-          {
-            loader: 'awesome-typescript-loader',
-            options: {
-              // useCache: true,
-            },
-          },
-        ],
+        options: {
+          babelrc: false,
+          configFile: path.resolve(rootPath, 'babel.config.client.js'),
+          // cacheDirectory: true,
+          // cacheCompression: false,
+        },
       },
       {
         test: /\.(scss)$/,
@@ -210,6 +207,7 @@ const webpackConfig = {
         loader: 'url-loader',
         options: {
           limit: 10240,
+          esModule: false,
         },
       },
       {
@@ -218,6 +216,7 @@ const webpackConfig = {
         options: {
           limit: 10240,
           mimetype: 'application/font-woff',
+          esModule: false,
         },
       },
       {
@@ -226,11 +225,15 @@ const webpackConfig = {
         options: {
           limit: 10240,
           mimetype: 'application/octet-stream',
+          esModule: false,
         },
       },
       {
         test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
         loader: 'file-loader',
+        options: {
+          esModule: false,
+        },
       },
       {
         test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
@@ -238,6 +241,7 @@ const webpackConfig = {
         options: {
           limit: 10240,
           mimetype: 'image/svg+xml',
+          esModule: false,
         },
       },
     ],
@@ -247,10 +251,8 @@ const webpackConfig = {
     hints: false,
   },
 
-  // https://webpack.js.org/configuration/
   resolve: {
-    // modules: [ 'client', 'node_modules' ],
-    extensions: ['.json', '.js', '.jsx', '.scss'],
+    extensions: ['.ts', '.tsx', '.js', '.json', '.jsx', '.css', '.scss'],
   },
 
   plugins: [
