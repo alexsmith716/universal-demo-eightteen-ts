@@ -43,10 +43,10 @@ export default ({ clientStats }) => async (req, res) => {
     helpers: providers,
   });
 
-  function hydrate(a) {
-    res.write('<!doctype html>');
-    ReactDOM.renderToNodeStream(<Html assets={a} store={store} />).pipe(res);
-  }
+  // function hydrate(a) {
+  //   res.write('<!doctype html>');
+  //   ReactDOM.renderToNodeStream(<Html assets={a} store={store} />).pipe(res);
+  // }
 
   try {
     // console.log('>>>> SERVER > store.getState() 1111 ####: ', store.getState());
@@ -97,7 +97,7 @@ export default ({ clientStats }) => async (req, res) => {
     const ssrHtml = `<!DOCTYPE html><html lang="en-US">${ReactDOM.renderToString(html)}</html>`;
     res.status(200).send(ssrHtml);
   } catch (error) {
-    res.status(500);
-    hydrate(flushChunks(clientStats, { chunkNames: flushChunkNames() }));
+    //res.status(500);
+    //hydrate(flushChunks(clientStats, { chunkNames: flushChunkNames() }));
   }
 };
