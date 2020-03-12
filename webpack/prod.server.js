@@ -30,7 +30,6 @@ module.exports = {
 
   entry: {
     server: './src/server.js',
-    // serverTest: './src/serverTest.js'
   },
 
   output: {

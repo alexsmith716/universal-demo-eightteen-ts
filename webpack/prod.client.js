@@ -4,7 +4,11 @@ const webpack = require('webpack');
 process.env.IS_CLIENT = true;
 
 // const TerserPlugin = require('terser-webpack-plugin');
+
+// optimize-css-assets-webpack-plugin: optimize \ minimize CSS assets
+// option > cssProcessor > default is `cssnano`
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+
 const ExtractCssChunks = require('extract-css-chunks-webpack-plugin');
 
 const CopyPlugin = require('copy-webpack-plugin');
@@ -25,8 +29,9 @@ const assetPath = path.resolve(rootPath, './build/dist');
 // const { DuplicatesPlugin } = require('inspectpack/plugin');
 
 const generatedIdent = (name, localName, lr) => {
-  const r = Buffer.from(lr).toString('base64');
-  return name + '__' + localName + '--' + r.substring( r.length-12, r.length-3 );
+  const b = Buffer.from(lr).toString('base64');
+  // eslint-disable-next-line space-infix-ops
+  return `${name}__${localName}--${b.substring(b.length-12, b.length-3)}`;
 };
 
 module.exports = {
@@ -43,14 +48,14 @@ module.exports = {
       // './src/theme/scss/global/styles.global.scss',
       'bootstrap',
       './src/client.js',
-    ]
+    ],
   },
 
   output: {
     filename: '[name].[chunkhash].js',
     chunkFilename: '[name].[chunkhash].js',
     path: assetPath,
-    publicPath: '/dist/'
+    publicPath: '/dist/',
   },
 
   module: {
@@ -70,21 +75,21 @@ module.exports = {
         test: /\.(scss)$/,
         use: [
           {
-            loader:ExtractCssChunks.loader,
+            loader: ExtractCssChunks.loader,
             options: {
-              modules: true
-            }
+              modules: true,
+            },
           },
           {
             loader: 'css-loader',
             options: {
               modules: {
-                getLocalIdent: (loaderContext, localIdentName, localName, options) => {
-                  if (path.basename(loaderContext.resourcePath).indexOf('global.scss') !== -1) {
+                getLocalIdent: (loaderContext, localIdentName, localName) => {
+                  const lr = loaderContext.resourcePath;
+                  if (path.basename(lr).indexOf('global.scss') !== -1) {
                     return localName;
-                  } else {
-                    return generatedIdent(path.basename(loaderContext.resourcePath).replace(/\.[^/.]+$/, ""), localName, loaderContext.resourcePath);
                   }
+                  return generatedIdent(path.basename(lr).replace(/\.[^/.]+$/, ''), localName, lr);
                 },
                 mode: 'local',
               },
@@ -99,9 +104,9 @@ module.exports = {
             options: {
               sourceMap: true,
               config: {
-                path: 'postcss.config.js'
-              }
-            }
+                path: 'postcss.config.js',
+              },
+            },
           },
           {
             loader: 'sass-loader',
@@ -111,7 +116,7 @@ module.exports = {
                 // sourceMapContents: true, default: false
                 outputStyle: 'compressed', // default: nested, expanded, compact, compressed
               },
-            }
+            },
           },
           {
             loader: 'sass-resources-loader',
@@ -120,31 +125,31 @@ module.exports = {
               resources: [
                 path.resolve(rootPath, 'src/theme/scss/app/functions.scss'),
                 path.resolve(rootPath, 'src/theme/scss/app/variables.scss'),
-                path.resolve(rootPath, 'src/theme/scss/app/mixins.scss')
+                path.resolve(rootPath, 'src/theme/scss/app/mixins.scss'),
               ],
             },
           },
-        ]
+        ],
       },
       {
         test: /\.(css)$/,
         use: [
           {
-            loader:ExtractCssChunks.loader,
+            loader: ExtractCssChunks.loader,
             options: {
-              modules: true
-            }
+              modules: true,
+            },
           },
           {
-            loader : 'css-loader',
+            loader: 'css-loader',
             options: {
               modules: {
-                getLocalIdent: (loaderContext, localIdentName, localName, options) => {
-                  if (path.basename(loaderContext.resourcePath).indexOf('global.scss') !== -1) {
+                getLocalIdent: (loaderContext, localIdentName, localName) => {
+                  const lr = loaderContext.resourcePath;
+                  if (path.basename(lr).indexOf('global.scss') !== -1) {
                     return localName;
-                  } else {
-                    return generatedIdent(path.basename(loaderContext.resourcePath).replace(/\.[^/.]+$/, ""), localName, loaderContext.resourcePath);
                   }
+                  return generatedIdent(path.basename(lr).replace(/\.[^/.]+$/, ''), localName, lr);
                 },
                 mode: 'local',
               },
@@ -159,18 +164,18 @@ module.exports = {
             options: {
               sourceMap: true,
               config: {
-                path: 'postcss.config.js'
-              }
-            }
-          }
-        ]
+                path: 'postcss.config.js',
+              },
+            },
+          },
+        ],
       },
       {
         test: /\.(jpg|jpeg|gif|png)$/,
         loader: 'url-loader',
         options: {
           limit: 10240,
-          esModule: false
+          esModule: false,
         },
       },
       {
@@ -179,8 +184,8 @@ module.exports = {
         options: {
           limit: 10240,
           mimetype: 'application/font-woff',
-          esModule: false
-        }
+          esModule: false,
+        },
       },
       {
         test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,
@@ -188,14 +193,14 @@ module.exports = {
         options: {
           limit: 10240,
           mimetype: 'application/octet-stream',
-          esModule: false
-        }
+          esModule: false,
+        },
       },
       {
         test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
         loader: 'file-loader',
         options: {
-          esModule: false
+          esModule: false,
         },
       },
       {
@@ -204,14 +209,14 @@ module.exports = {
         options: {
           limit: 10240,
           mimetype: 'image/svg+xml',
-          esModule: false
-        }
+          esModule: false,
+        },
       },
-    ]
+    ],
   },
 
   performance: {
-    hints: false
+    hints: false,
   },
 
   // webpack runs default optimizations depending on chosen mode (prod/dev)
@@ -245,7 +250,7 @@ module.exports = {
           name: 'vendors',
           chunks: 'all',
         },
-      }
+      },
     },
     // runtimeChunk: true,
     // runtimeChunk: {
@@ -256,9 +261,10 @@ module.exports = {
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.json', '.jsx', '.css', '.scss'],
     alias: {
-      react: path.resolve('./node_modules/react'), // https://github.com/facebook/react/issues/13991 (duplicate react in dependency tree)
+      react: path.resolve('./node_modules/react'),
+      // https://github.com/facebook/react/issues/13991 (duplicate react in dependency tree)
       // '~hooks': path.resolve(rootPath, './src/hooks'),
-    }
+    },
   },
 
   plugins: [
@@ -289,7 +295,6 @@ module.exports = {
 
     new OptimizeCssAssetsPlugin({
       assetNameRegExp: /\.css$/g,
-      cssProcessor: require('cssnano'),
       cssProcessorOptions: { discardComments: { removeAll: true } },
       canPrint: true,
     }),
@@ -304,7 +309,7 @@ module.exports = {
       __SERVER__: false,
       __DEVELOPMENT__: false,
       __DEVTOOLS__: false,
-      __DLLS__: false
+      __DLLS__: false,
     }),
 
     new HtmlWebpackPlugin({
@@ -314,8 +319,8 @@ module.exports = {
 
     // https://webpack.js.org/plugins/provide-plugin/
     // Use modules without having to use import/require
-    // ProvidePlugin: Whenever the identifier is encountered as free variable in a module, 
-    //    the module is loaded automatically and the identifier is filled with the exports of 
+    // ProvidePlugin: Whenever the identifier is encountered as free variable in a module,
+    //    the module is loaded automatically and the identifier is filled with the exports of
     //    the loaded module (of property in order to support named exports).
 
     // To automatically load jquery point variables it exposes to the corresponding node module
@@ -324,23 +329,24 @@ module.exports = {
       jQuery: 'jquery',
       'window.jQuery': 'jquery',
       Popper: ['popper.js', 'default'],
-      Alert: "exports-loader?Alert!bootstrap/js/dist/alert",
-      Button: "exports-loader?Button!bootstrap/js/dist/button",
-      // Carousel: "exports-loader?Carousel!bootstrap/js/dist/carousel",
-      Collapse: "exports-loader?Collapse!bootstrap/js/dist/collapse",
-      Dropdown: "exports-loader?Dropdown!bootstrap/js/dist/dropdown",
-      Modal: "exports-loader?Modal!bootstrap/js/dist/modal",
-      Popover: "exports-loader?Popover!bootstrap/js/dist/popover",
-      // Scrollspy: "exports-loader?Scrollspy!bootstrap/js/dist/scrollspy",
-      Tab: "exports-loader?Tab!bootstrap/js/dist/tab",
-      Tooltip: "exports-loader?Tooltip!bootstrap/js/dist/tooltip",
-      Util: "exports-loader?Util!bootstrap/js/dist/util",
+      Alert: 'exports-loader?Alert!bootstrap/js/dist/alert',
+      Button: 'exports-loader?Button!bootstrap/js/dist/button',
+      // Carousel: 'exports-loader?Carousel!bootstrap/js/dist/carousel',
+      Collapse: 'exports-loader?Collapse!bootstrap/js/dist/collapse',
+      Dropdown: 'exports-loader?Dropdown!bootstrap/js/dist/dropdown',
+      Modal: 'exports-loader?Modal!bootstrap/js/dist/modal',
+      Popover: 'exports-loader?Popover!bootstrap/js/dist/popover',
+      // Scrollspy: 'exports-loader?Scrollspy!bootstrap/js/dist/scrollspy',
+      Tab: 'exports-loader?Tab!bootstrap/js/dist/tab',
+      Tooltip: 'exports-loader?Tooltip!bootstrap/js/dist/tooltip',
+      Util: 'exports-loader?Util!bootstrap/js/dist/util',
     }),
 
     new webpack.HashedModuleIdsPlugin(),
 
     // globDirectory: base directory to match globPatterns against, relative to the current working directory
-    // [maximumFileSizeToCacheInBytes] will not have any effect, it only modifies files matched by 'globPatterns'
+    // [maximumFileSizeToCacheInBytes] will not have any effect,
+    //    it only modifies files matched by 'globPatterns'
     // 'Update on reload' automatically reload SW when a new one is available
 
     // https://developers.google.com/web/tools/workbox/guides/precache-files/webpack
@@ -350,20 +356,23 @@ module.exports = {
 
     // https://developers.google.com/web/tools/workbox/modules/workbox-precaching
     // Serving Precached Responses:
-    // Calling workbox.precaching.precacheAndRoute() or 
+    // Calling workbox.precaching.precacheAndRoute() or
     //  workbox.precaching.addRoute() will create a route that matches requests for precached URLs
 
-    // The response strategy used in this route is cache-first: 
-    //  the precached response will be used, unless that cached response is not present 
+    // The response strategy used in this route is cache-first:
+    //  the precached response will be used, unless that cached response is not present
     //  (due to some unexpected error), in which case a network response will be used instead
 
-    // https://developers.google.com/web/tools/workbox/modules/workbox-routing#how_to_register_a_navigation_route
+    // https://developers.google.com/web/tools/workbox/modules/workbox-routing
+    //      #how_to_register_a_navigation_route
     // How to Register a Navigation Route:
     // for a SPA, use a 'NavigationRoute' to return a specific response for all navigation requests
     // 'NavigationRoute':
-    //    https://developers.google.com/web/tools/workbox/reference-docs/latest/workbox.routing.NavigationRoute
-    // navigation requests: 
-    //    https://developers.google.com/web/fundamentals/primers/service-workers/high-performance-loading#first_what_are_navigation_requests
+    //    https://developers.google.com/web/tools/workbox/reference-docs/latest/
+    //      workbox.routing.NavigationRoute
+    // navigation requests:
+    //    https://developers.google.com/web/fundamentals/primers/service-workers/
+    //        high-performance-loading#first_what_are_navigation_requests
 
     // navigateFallback:
     //    meant to be used in a SPA scenario, in which all navigations use a common App Shell HTML

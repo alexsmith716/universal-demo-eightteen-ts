@@ -1,4 +1,4 @@
-import { Home, NotFound,} from './containers';
+import { Home, NotFound } from './containers';
 import App from './containers/App/App';
 
 import About from './containers/About/Loadable';
@@ -20,12 +20,12 @@ import { preloadData as preloadDataAboutFour } from './containers/AboutFour/prel
 
 import './theme/scss/global/styles.global.scss';
 
-export const routes = [
+const routes = [
   {
-    component: App, 
+    component: App,
     loadData: preloadDataApp,
     routes: [
-      { path: '/', exact: true, component: Home, },
+      { path: '/', exact: true, component: Home },
       { path: '/about', component: About },
       { path: '/aboutone', component: AboutOne },
       { path: '/abouttwo', component: AboutTwo },
@@ -34,7 +34,9 @@ export const routes = [
       { path: '/stickyfooter', component: StickyFooter },
       { path: '/login', component: Login },
       { path: '/register', component: Register },
-      { component: NotFound }
-    ]
-  }
+      { component: NotFound },
+    ],
+  },
 ];
+
+export default routes;

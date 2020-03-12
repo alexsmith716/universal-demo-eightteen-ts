@@ -98,7 +98,7 @@ if (__DEVELOPMENT__) {
 
   app.use('/dlls/:dllName.js', (req, res, next) => {
     const dllPath = path.join(__dirname, '..', 'build', 'dlls', `${req.params.dllName}.js`);
-    fs.access(dllPath, fs.constants.R_OK, (err) => (err ? res.send(`NO DLL: (${req.originalUrl})')`) : next()));
+    fs.access(dllPath, fs.constants.R_OK, (err) => (err ? res.send(`NO DLL:(${req.originalUrl}))`) : next()));
   });
 
   const compiler = webpack([clientConfigDev, serverConfigDev]);
