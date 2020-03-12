@@ -1,7 +1,5 @@
-const fs = require('fs');
 const path = require('path');
 const webpack = require('webpack');
-// const config = require('../config/config');
 const externals = require('./node-externals');
 
 // const loaderUtils = require('loader-utils').stringifyRequest;
@@ -11,24 +9,21 @@ const externals = require('./node-externals');
 
 const rootPath = path.resolve(__dirname, '..');
 
-const generatedIdent = (name, localName) => {
-  return name + '__' + localName;
-};
+const generatedIdent = (name, localName) => `${name}__${localName}`;
 
-// ==============================================================================================
+// ===============================
 
 // const babelrc = fs.readFileSync('./.babelrc', 'utf8');
 // let prodconfig = {};
-// 
 // try {
 //   prodconfig = JSON.parse(babelrc);
-//   console.error('>>>>>>>>> webpack prod.server > SUCCESS: parsing .babelrc !!typeof: ', typeof prodconfig)
-//   console.error('>>>>>>>>> webpack prod.server > SUCCESS: parsing .babelrc !!: ', prodconfig)
+//   console.error('>>>> webpack prod.server > SUCCESS: parsing .babelrc typeof: ', typeof prodconfig)
+//   console.error('>>>> webpack prod.server > SUCCESS: parsing .babelrc: ', prodconfig)
 // } catch (err) {
-//   console.error('>>>>>>>>> webpack prod.server > ERROR: parsing .babelrc: ', err)
+//   console.error('>>>> webpack prod.server > ERROR: parsing .babelrc: ', err)
 // }
 
-// ==============================================================================================
+// ===============================
 
 // server bundle targeting 'node'
 // entry point to server bundle ('server.js') renders to string
@@ -45,13 +40,13 @@ module.exports = {
   devtool: 'source-map',
 
   entry: {
-    server: './src/server.js'
+    server: './src/server.js',
   },
 
   output: {
     path: path.resolve('./build/server'),
     filename: '[name].js',
-    libraryTarget: 'commonjs2'
+    libraryTarget: 'commonjs2',
   },
 
   module: {
@@ -59,7 +54,7 @@ module.exports = {
       {
         test: /\.jsx?$/,
         exclude: /node_modules/,
-        loader: 'babel-loader'
+        loader: 'babel-loader',
       },
       {
         test: /\.tsx?$/,
@@ -68,7 +63,7 @@ module.exports = {
           {
             loader: 'awesome-typescript-loader',
             options: {
-              // useCache: true
+              // useCache: true,
             },
           },
         ],
@@ -81,12 +76,12 @@ module.exports = {
             loader: 'css-loader',
             options: {
               modules: {
-                getLocalIdent: (loaderContext, localIdentName, localName, options) => {
-                  if (path.basename(loaderContext.resourcePath).indexOf('global.scss') !== -1) {
+                getLocalIdent: (loaderContext, localIdentName, localName) => {
+                  const lr = loaderContext.resourcePath;
+                  if (path.basename(lr).indexOf('global.scss') !== -1) {
                     return localName;
-                  } else {
-                    return generatedIdent(path.basename(loaderContext.resourcePath).replace(/\.[^/.]+$/, ""), localName);
                   }
+                  return generatedIdent(path.basename(lr).replace(/\.[^/.]+$/, ''), localName);
                 },
                 mode: 'local',
               },
@@ -98,16 +93,16 @@ module.exports = {
             loader: 'resolve-url-loader',
             options: {
               // debug: true,
-            }
+            },
           },
           {
             loader: 'postcss-loader',
             options: {
               sourceMap: true,
               config: {
-                path: 'postcss.config.js'
-              }
-            }
+                path: 'postcss.config.js',
+              },
+            },
           },
           {
             loader: 'sass-loader',
@@ -117,7 +112,7 @@ module.exports = {
                 sourceMapContents: false,
                 outputStyle: 'expanded',
               },
-            }
+            },
           },
           {
             loader: 'sass-resources-loader',
@@ -126,26 +121,26 @@ module.exports = {
               resources: [
                 path.resolve(rootPath, 'src/theme/scss/app/functions.scss'),
                 path.resolve(rootPath, 'src/theme/scss/app/variables.scss'),
-                path.resolve(rootPath, 'src/theme/scss/app/mixins.scss')
+                path.resolve(rootPath, 'src/theme/scss/app/mixins.scss'),
               ],
             },
           },
-        ]
+        ],
       },
       {
         test: /\.(css)$/,
         exclude: /node_modules/,
         use: [
           {
-            loader : 'css-loader',
+            loader: 'css-loader',
             options: {
               modules: {
-                getLocalIdent: (loaderContext, localIdentName, localName, options) => {
-                  if (path.basename(loaderContext.resourcePath).indexOf('global.scss') !== -1) {
+                getLocalIdent: (loaderContext, localIdentName, localName) => {
+                  const lr = loaderContext.resourcePath;
+                  if (path.basename(lr).indexOf('global.scss') !== -1) {
                     return localName;
-                  } else {
-                    return generatedIdent(path.basename(loaderContext.resourcePath).replace(/\.[^/.]+$/, ""), localName);
                   }
+                  return generatedIdent(path.basename(lr).replace(/\.[^/.]+$/, ''), localName);
                 },
                 mode: 'local',
               },
@@ -158,18 +153,18 @@ module.exports = {
             options: {
               // sourceMap: true,
               // debug: true,
-            }
+            },
           },
           {
             loader: 'postcss-loader',
             options: {
               sourceMap: true,
               config: {
-                path: 'postcss.config.js'
-              }
-            }
-          }
-        ]
+                path: 'postcss.config.js',
+              },
+            },
+          },
+        ],
       },
       {
         test: /\.(jpg|jpeg|gif|png)$/,
@@ -183,37 +178,37 @@ module.exports = {
         loader: 'url-loader',
         options: {
           limit: 10240,
-          mimetype: 'application/font-woff'
-        }
-      }, 
+          mimetype: 'application/font-woff',
+        },
+      },
       {
         test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,
         loader: 'url-loader',
         options: {
           limit: 10240,
-          mimetype: 'application/octet-stream'
-        }
-      }, 
+          mimetype: 'application/octet-stream',
+        },
+      },
       {
         test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
         loader: 'file-loader',
         // options: {
         //   name: '[path][name].[ext]',
         // },
-      }, 
+      },
       {
         test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
         loader: 'url-loader',
         options: {
           limit: 10240,
-          mimetype: 'image/svg+xml'
-        }
+          mimetype: 'image/svg+xml',
+        },
       },
-    ]
+    ],
   },
 
   performance: {
-    hints: false
+    hints: false,
   },
 
   resolve: {
@@ -231,29 +226,29 @@ module.exports = {
     // After compiling some chunks are too small - creating larger HTTP overhead
     // post-process chunks by merging them
 
-    // LimitChunkCountPlugin with 'maxChunks: 1' insures only one file is generated 
+    // LimitChunkCountPlugin with 'maxChunks: 1' insures only one file is generated
     //    for server bundle so it can be run synchronously
     new webpack.optimize.LimitChunkCountPlugin({
-      maxChunks: 1
+      maxChunks: 1,
     }),
     new webpack.DefinePlugin({
       'process.env': { NODE_ENV: JSON.stringify('development') },
       __CLIENT__: false,
       __SERVER__: true,
       __DEVELOPMENT__: true,
-      __DEVTOOLS__: true
+      __DEVTOOLS__: true,
     }),
     // new BundleAnalyzerPlugin({
     //   analyzerMode: 'static',
     //   reportFilename: '../../analyzers/bundleAnalyzer/dev.serverAA.html',
     //   openAnalyzer: false,
-    //   generateStatsFile: false
+    //   generateStatsFile: false,
     // }),
 
     // new DuplicatesPlugin({
     //   emitErrors: false,
     //   emitHandler: undefined,
-    //   verbose: true
+    //   verbose: true,
     // }),
-  ]
+  ],
 };
