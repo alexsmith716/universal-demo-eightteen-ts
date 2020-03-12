@@ -12,7 +12,7 @@ import serialize from 'serialize-javascript';
 
 import asyncGetPromises from './utils/asyncGetPromises';
 
-import { routes } from './routes';
+import routes from './routes';
 import configureStore from './redux/configureStore';
 import initialStatePreloaded from './redux/initial-preloaded-state';
 import { getUserAgent, isBot } from './utils/device';
