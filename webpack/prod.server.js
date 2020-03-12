@@ -3,19 +3,19 @@ const webpack = require('webpack');
 
 process.env.IS_CLIENT = false;
 
-const externals = require('./node-externals');
-
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 // const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 // const { DuplicatesPlugin } = require('inspectpack/plugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const WebpackBar = require('webpackbar');
+const externals = require('./node-externals');
 
 const rootPath = path.resolve(__dirname, '..');
 
 const generatedIdent = (name, localName, lr) => {
-  const r = Buffer.from(lr).toString('base64');
-  return name + '__' + localName + '--' + r.substring( r.length-12, r.length-3 );
+  const b = Buffer.from(lr).toString('base64');
+  // eslint-disable-next-line space-infix-ops
+  return `${name}__${localName}--${b.substring(b.length-12, b.length-3)}`;
 };
 
 module.exports = {
@@ -36,7 +36,7 @@ module.exports = {
     path: path.resolve('./build/server'),
     // filename: 'server.js',
     filename: '[name].js',
-    libraryTarget: 'commonjs2'
+    libraryTarget: 'commonjs2',
   },
 
   module: {
@@ -60,12 +60,12 @@ module.exports = {
             loader: 'css-loader',
             options: {
               modules: {
-                getLocalIdent: (loaderContext, localIdentName, localName, options) => {
-                  if (path.basename(loaderContext.resourcePath).indexOf('global.scss') !== -1) {
+                getLocalIdent: (loaderContext, localIdentName, localName) => {
+                  const lr = loaderContext.resourcePath;
+                  if (path.basename(lr).indexOf('global.scss') !== -1) {
                     return localName;
-                  } else {
-                    return generatedIdent(path.basename(loaderContext.resourcePath).replace(/\.[^/.]+$/, ""), localName, loaderContext.resourcePath);
                   }
+                  return generatedIdent(path.basename(lr).replace(/\.[^/.]+$/, ''), localName, lr);
                 },
                 mode: 'local',
               },
@@ -81,9 +81,9 @@ module.exports = {
             options: {
               sourceMap: true,
               config: {
-                path: 'postcss.config.js'
-              }
-            }
+                path: 'postcss.config.js',
+              },
+            },
           },
           {
             loader: 'sass-loader',
@@ -92,7 +92,7 @@ module.exports = {
                 sourceMap: true,
                 outputStyle: 'compressed',
               },
-            }
+            },
           },
           {
             loader: 'sass-resources-loader',
@@ -101,26 +101,26 @@ module.exports = {
               resources: [
                 path.resolve(rootPath, 'src/theme/scss/app/functions.scss'),
                 path.resolve(rootPath, 'src/theme/scss/app/variables.scss'),
-                path.resolve(rootPath, 'src/theme/scss/app/mixins.scss')
+                path.resolve(rootPath, 'src/theme/scss/app/mixins.scss'),
               ],
             },
           },
-        ]
+        ],
       },
       {
         test: /\.(css)$/,
         exclude: /node_modules/,
         use: [
           {
-            loader : 'css-loader',
+            loader: 'css-loader',
             options: {
               modules: {
-                getLocalIdent: (loaderContext, localIdentName, localName, options) => {
-                  if (path.basename(loaderContext.resourcePath).indexOf('global.scss') !== -1) {
+                getLocalIdent: (loaderContext, localIdentName, localName) => {
+                  const lr = loaderContext.resourcePath;
+                  if (path.basename(lr).indexOf('global.scss') !== -1) {
                     return localName;
-                  } else {
-                    return generatedIdent(path.basename(loaderContext.resourcePath).replace(/\.[^/.]+$/, ""), localName, loaderContext.resourcePath);
                   }
+                  return generatedIdent(path.basename(lr).replace(/\.[^/.]+$/, ''), localName, lr);
                 },
                 mode: 'local',
               },
@@ -136,18 +136,18 @@ module.exports = {
             options: {
               sourceMap: true,
               config: {
-                path: 'postcss.config.js'
-              }
-            }
-          }
-        ]
+                path: 'postcss.config.js',
+              },
+            },
+          },
+        ],
       },
       {
         test: /\.(jpg|jpeg|gif|png)$/,
         loader: 'url-loader',
         options: {
           limit: 10240,
-          esModule: false
+          esModule: false,
         },
       },
       {
@@ -156,8 +156,8 @@ module.exports = {
         options: {
           limit: 10240,
           mimetype: 'application/font-woff',
-          esModule: false
-        }
+          esModule: false,
+        },
       },
       {
         test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,
@@ -165,14 +165,14 @@ module.exports = {
         options: {
           limit: 10240,
           mimetype: 'application/octet-stream',
-          esModule: false
-        }
+          esModule: false,
+        },
       },
       {
         test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
         loader: 'file-loader',
         options: {
-          esModule: false
+          esModule: false,
         },
       },
       {
@@ -181,22 +181,23 @@ module.exports = {
         options: {
           limit: 10240,
           mimetype: 'image/svg+xml',
-          esModule: false
-        }
+          esModule: false,
+        },
       },
-    ]
+    ],
   },
 
   performance: {
-    hints: false
+    hints: false,
   },
 
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.json', '.jsx', '.css', '.scss'],
     alias: {
-      react: path.resolve('./node_modules/react'), // https://github.com/facebook/react/issues/13991 (duplicate react's in dependency tree)
+      react: path.resolve('./node_modules/react'),
+      // https://github.com/facebook/react/issues/13991 (duplicate react's in dependency tree)
       // '~hooks': path.resolve(__dirname, '../src/hooks'),
-    }
+    },
   },
 
   plugins: [
@@ -216,7 +217,7 @@ module.exports = {
     // After compiling some chunks are too small - creating larger HTTP overhead
     // post-process chunks by merging them
     new webpack.optimize.LimitChunkCountPlugin({
-      maxChunks: 1
+      maxChunks: 1,
     }),
 
     new webpack.DefinePlugin({
@@ -225,12 +226,11 @@ module.exports = {
       __SERVER__: true,
       __DEVELOPMENT__: false,
       __DEVTOOLS__: false,
-      __DLLS__: false
+      __DLLS__: false,
     }),
 
     new OptimizeCssAssetsPlugin({
       assetNameRegExp: /\.css$/g,
-      cssProcessor: require('cssnano'),
       cssProcessorOptions: { discardComments: { removeAll: true } },
       canPrint: true,
     }),
