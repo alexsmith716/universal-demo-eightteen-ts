@@ -25,10 +25,10 @@ const validDLLs = dllHelpers.isValidDLLs('vendor', path.resolve(__dirname, '../b
 // console.log('>>>> dev.client > validDLLs validDLLs: ', validDLLs);
 
 if (process.env.WEBPACK_DLLS === '1' && validDLLs) {
-  // console.log('>>>> WEBPACK_DLLS ENABLED !! <<<<');
+  // console.log('>>>> dev.client WEBPACK_DLLS ENABLED !! <<<<');
 } else {
   process.env.WEBPACK_DLLS = '0';
-  // console.log('>>>> WEBPACK_DLLS DISABLED !! <<<<');
+  // console.log('>>>> dev.client WEBPACK_DLLS DISABLED !! <<<<');
 }
 
 // loaderContext: ton of data about loaded object
