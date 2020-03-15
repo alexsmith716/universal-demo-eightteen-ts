@@ -1,25 +1,25 @@
 import React, { Component } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { connect } from 'react-redux';
-import { load as loadInfo } from '../../redux/modules/info';
+import { load } from '../../redux/modules/infoAlertThree';
 import Loading from '../../components/Loading/Loading';
 // import { DragAndDrop } from '../../components';
 
 @connect(
   (state) => ({ 
-    data: state.info.data,
-    loading: state.info.loading,
-    error: state.info.error,
-    errorResponse: state.info.errorResponse,
+    data: state.infoAlertThree.data,
+    loading: state.infoAlertThree.loading,
+    error: state.infoAlertThree.error,
+    errorResponse: state.infoAlertThree.errorResponse,
   }),
-  { loadInfo }
+  { load }
 )
 
 class AboutThree extends Component {
 
   render() {
 
-    const { data, loading, loadInfo, error, errorResponse } = this.props;
+    const { data, loading, load, error, errorResponse } = this.props;
 
     const aboutImageMain = require('../../theme/images/about-750-450.png');
     const aboutImageOurCustomers = require('../../theme/images/about-500-300.png');
@@ -65,7 +65,7 @@ class AboutThree extends Component {
                   <h6>{data && data.timeElapsed}</h6>
                 </div>
 
-                <button type="button" className="btn btn-primary" onClick={loadInfo}>
+                <button type="button" className="btn btn-primary" onClick={load}>
                   Reload from server
                 </button>
               </div>
