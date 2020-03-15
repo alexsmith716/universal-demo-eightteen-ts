@@ -26,25 +26,26 @@ export class InfoBar extends Component {
 
     return (
       <div className="d-flex justify-content-center bg-color-mediumorchid-1">
-        <div className="text-center m-2">
-        {/* (>>>>>>>>>>>>>>>>>>>>>> LOADING >>>>>>>>>>>>>>>>>>>>>>>>) */}
+        <div className="text-center mt-2 mb-2">
 
-        {loading && (
+          {/* (>>>>>>>>>>>>>>>>>>>>>> LOADING >>>>>>>>>>>>>>>>>>>>>>>>) */}
+          {loading && (
             <Loading text="Loading" />
           )}
 
-        {/* (>>>>>>>>>>>>>>>>>>>>>> ERROR >>>>>>>>>>>>>>>>>>>>>>>>) */}
-
-        {error && (
-
-            <div className="alert alert-danger text-center" role="alert">RENDERING ERROR<br/><span>{`Message: ${errorResponse.message}`}</span><br/><span>{`Url: ${errorResponse.documentation_url}`}</span></div>
-
+          {/* (>>>>>>>>>>>>>>>>>>>>>> ERROR >>>>>>>>>>>>>>>>>>>>>>>>) */}
+          {error && (
+            <div className="alert alert-danger text-center" role="alert">
+              RENDERING ERROR
+              <br/>
+              <span>{`Message: ${errorResponse.message}`}</span>
+              <br/>
+              <span>{`Url: ${errorResponse.documentation_url}`}</span>
+            </div>
           )}
 
-        {/* (>>>>>>>>>>>>>>>>>>>>>>>> LOADED >>>>>>>>>>>>>>>>>>>>>>>>) */}
-
-        {!loading && (
-
+          {/* (>>>>>>>>>>>>>>>>>>>>>>>> LOADED >>>>>>>>>>>>>>>>>>>>>>>>) */}
+          {!loading && (
             <div>
               <div className={`card-title ${styles.infoBar}`}>
                 <h5>InfoBar message: '<span className={styles.message}>{data ? data.message : 'no message!'}</span>'</h5>
@@ -59,6 +60,7 @@ export class InfoBar extends Component {
               </button>
             </div>
           )}
+
         </div>
       </div>
     );
