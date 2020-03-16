@@ -11,9 +11,9 @@ module.exports = {
 
   env: {
     browser: true,
-    es6: true,
-    jest: true,
     node: true,
+    jest: true,
+    // es6: true,
   },
 
   plugins: [
