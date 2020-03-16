@@ -20,6 +20,7 @@ body {
   /* Margin bottom by footer height plus a 'margin-top: 15px' */
   // margin-bottom: calculate-rem($footer-height + $footer-margin-top);
   margin-bottom: calculate-rem($footer-height);
+  overflow-x:hidden;
 }
 
 #main-nav .navbar-collapse .navbar-nav .nav-item .nav-link {
