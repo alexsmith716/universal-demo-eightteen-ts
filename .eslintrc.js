@@ -1,34 +1,24 @@
 module.exports = {
   extends: [
     'airbnb',
-    // 'eslint:recommended',
-    // 'plugin:react/recommended',
-    // 'plugin:@typescript-eslint/recommended',
-    // 'prettier',
-    // 'prettier/react'
-    // 'prettier/@typescript-eslint',
+    'plugin:prettier/recommended',
+    'prettier/react',
   ],
 
   env: {
     browser: true,
     node: true,
     jest: true,
-    // es6: true,
   },
 
   plugins: [
-    // '@typescript-eslint',
-    'react-hooks'
-    // 'prettier',
+    'prettier', 
+    'react-hooks',
   ],
 
   parser: 'babel-eslint',
+
   parserOptions: {
-    // ecmaVersion: 2018,
-    // sourceType: 'module',
-    // ecmaFeatures: {
-    //   jsx: true,
-    // },
     allowImportExportEverywhere: true,
   },
 
@@ -49,33 +39,8 @@ module.exports = {
   },
 
   rules: {
-    'no-lonely-if': 2,
-    'no-nested-ternary': 2,
-    'max-nested-callbacks': [2, { max: 5 }],
-    'constructor-super': 2,
-    'no-this-before-super': 2,
-    'prefer-spread': 2,
     'arrow-parens': 0,
-    'max-len': [
-      'error',
-      {
-        code: 110,
-      },
-    ],
-    'no-warning-comments': [1, { terms: ['todo', 'fixme'], location: 'start' }],
-    'no-underscore-dangle': 'off',
-    'react/sort-comp': 0,
-    'react/jsx-filename-extension': [1, { extensions: ['.js', '.jsx'] }],
-    'react/jsx-fragments': 'error',
-    'react/jsx-no-useless-fragment': 'error',
-    'react/jsx-one-expression-per-line': 'off',
-    'react/jsx-props-no-spreading': 'off',
-    'react/require-extension': 'off',
-    'react/destructuring-assignment': 'off',
-    'react/no-access-state-in-setstate': 'off',
-    'react-hooks/exhaustive-deps': 'error',
-    'react-hooks/rules-of-hooks': 'error',
-    'no-param-reassign': 0,
+    'class-methods-use-this': 1,
     'comma-dangle': [
       'error',
       {
@@ -86,8 +51,29 @@ module.exports = {
         functions: 'always-multiline',
       },
     ],
+    'constructor-super': 1,
     'import/extensions': [1, { js: 'never' }],
     'import/max-dependencies': ['error', { max: 40 }],
     'import/no-extraneous-dependencies': [0],
+    'max-len': ['error', { code: 110, }],
+    'max-nested-callbacks': [2, { max: 5 }],
+    'no-lonely-if': 2,
+    'no-nested-ternary': 2,
+    'no-param-reassign': 0,
+    'no-this-before-super': 2,
+    'no-underscore-dangle': 'off',
+    'no-warning-comments': [1, { terms: ['todo', 'fixme'], location: 'start' }],
+    'prefer-spread': 2,
+    'react/destructuring-assignment': 'off',
+    'react/no-access-state-in-setstate': 'off',
+    'react/jsx-filename-extension': [1, { extensions: ['.js', '.jsx'] }],
+    'react/jsx-fragments': 'error',
+    'react/jsx-no-useless-fragment': 'error',
+    'react/jsx-one-expression-per-line': 'off',
+    'react/jsx-props-no-spreading': 'off',
+    'react/require-extension': 'off',
+    'react/sort-comp': 0,
+    'react-hooks/exhaustive-deps': 'warn',
+    'react-hooks/rules-of-hooks': 'error',
   },
 }

@@ -21,9 +21,9 @@
     "check-types-w": "tsc --watch",
     "check-types": "tsc --noEmit true",
     "lint:scss": "stylelint \"**/*.scss\"",
-    "lint": "eslint ./webpack/dllreferenceplugin.js",
+    "lint": "eslint ./bin/server.js",
     "lint:fix": "eslint bin/ --fix",
-    "prettier": "prettier --config .prettierrc --write \"./+(bin)/**/*.{js}\" \"!.node_modules/**\""
+    "prettier": "prettier --config .prettierrc --write \"./+(bin)/**/*.{js}\""
   },
   "dependencies": {
     "@babel/register": "^7.8.6",
@@ -108,6 +108,7 @@
     "eslint-loader": "^3.0.3",
     "eslint-plugin-import": "^2.20.1",
     "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-prettier": "^3.1.2",
     "eslint-plugin-react": "^7.18.3",
     "eslint-plugin-react-hooks": "^2.4.0",
     "expose-loader": "^0.7.5",

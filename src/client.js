@@ -58,7 +58,6 @@ const providers = {
 };
 
 (async () => {
-  // console.log('>>>> CLIENT <<<<');
   // redux-persist:
   // delays rendering of app UI until persisted state has been retrieved and saved to redux
   const preloadedState = await getStoredState(persistConfig);

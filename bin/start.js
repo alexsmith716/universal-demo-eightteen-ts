@@ -35,7 +35,7 @@ process.on('unhandledRejection', (reason, promise) => {
   unhandledRejections.set(promise, reason);
 });
 
-process.on('rejectionHandled', (promise) => {
+process.on('rejectionHandled', promise => {
   logger.error('>>>> BIN > START > process > rejectionHandled > promise:', promise);
   unhandledRejections.delete(promise);
 });
@@ -76,7 +76,7 @@ let isBuilt = false;
 
 const done = () => {
   if (!isBuilt) {
-    server.listen(port, host, (err) => {
+    server.listen(port, host, err => {
       isBuilt = true;
       logger.end('>>>> BIN > START > STATS COMPILER HAS COMPLETED BUILD !! WAIT IS OVER !');
       if (err) {
@@ -98,7 +98,7 @@ if (__DEVELOPMENT__) {
 
   app.use('/dlls/:dllName.js', (req, res, next) => {
     const dllPath = path.join(__dirname, '..', 'build', 'dlls', `${req.params.dllName}.js`);
-    fs.access(dllPath, fs.constants.R_OK, (err) => (err ? res.send(`NO DLL:(${req.originalUrl}))`) : next()));
+    fs.access(dllPath, fs.constants.R_OK, err => (err ? res.send(`NO DLL:(${req.originalUrl}))`) : next()));
   });
 
   const compiler = webpack([clientConfigDev, serverConfigDev]);
