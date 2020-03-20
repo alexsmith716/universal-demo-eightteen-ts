@@ -2,7 +2,6 @@ const path = require('path');
 const webpack = require('webpack');
 // Extract CSS from chunks into multiple stylesheets + HMR
 const ExtractCssChunks = require('extract-css-chunks-webpack-plugin');
-const dllHelpers = require('./dllreferenceplugin');
 
 // const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 // const { DuplicatesPlugin } = require('inspectpack/plugin');
@@ -18,18 +17,6 @@ const host = process.env.HOST || 'localhost';
 const port = process.env.PORT;
 
 // ===============================
-
-const validDLLs = dllHelpers.isValidDLLs('vendor', path.resolve(__dirname, '../build'));
-
-// console.log('>>>> dev.client > process.env.WEBPACK_DLLS: ', process.env.WEBPACK_DLLS);
-// console.log('>>>> dev.client > validDLLs validDLLs: ', validDLLs);
-
-if (process.env.WEBPACK_DLLS === '1' && validDLLs) {
-  // console.log('>>>> dev.client WEBPACK_DLLS ENABLED !! <<<<');
-} else {
-  process.env.WEBPACK_DLLS = '0';
-  // console.log('>>>> dev.client WEBPACK_DLLS DISABLED !! <<<<');
-}
 
 // loaderContext: ton of data about loaded object
 // loaderContext.resourcePath: '/......//client/containers/About/scss/About.scss'
@@ -333,11 +320,5 @@ const webpackConfig = {
     }),
   ],
 };
-
-// ===============================
-
-if (process.env.WEBPACK_DLLS === '1' && validDLLs) {
-  dllHelpers.installVendorDLL(webpackConfig, 'vendor');
-}
 
 module.exports = webpackConfig;

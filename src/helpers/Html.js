@@ -48,9 +48,6 @@ function Html({ assets, content, store }) {
           />
         )}
 
-        {/* (>>>>>>> DEV DLLS  <<<<<<<<<<<<<<<<<<<<<<<<<<<<<) */}
-        { __DLLS__ && <script key="dlls__vendor" src="/dlls/dll__vendor.js" charSet="UTF-8" /> }
-
         {/* (>>>>>>> SCRIPTS  <<<<<<<<<<<<<<<<<<<<<<<<<<<<<) */}
         {assets.scripts 
           && Object.keys(assets.scripts).map(key => (
