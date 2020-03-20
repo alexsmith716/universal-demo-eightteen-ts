@@ -1,4 +1,5 @@
 const logger = console;
+
 const write = (status, text, verbose) => {
   let textToLog = '';
   let logObject = false;
@@ -28,6 +29,7 @@ const write = (status, text, verbose) => {
   }
   if (logObject) logger.dir(verbose, { depth: 15 });
 };
+
 // Printing any statements
 const log = text => {
   logger.log(text);
