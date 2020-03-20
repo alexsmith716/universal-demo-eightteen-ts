@@ -96,13 +96,6 @@ if (__DEVELOPMENT__) {
 
 	const serverOptions = { publicPath };
 
-	app.use('/dlls/:dllName.js', (req, res, next) => {
-		const dllPath = path.join(__dirname, '..', 'build', 'dlls', `${req.params.dllName}.js`);
-		fs.access(dllPath, fs.constants.R_OK, (err) =>
-			err ? res.send('################## NO DLL !!! ##################') : next()
-		);
-	});
-
 	const compiler = webpack([clientConfigDev, serverConfigDev]);
 	const clientCompiler = compiler.compilers[0];
 	const devMiddleware = webpackDevMiddleware(compiler, serverOptions);
