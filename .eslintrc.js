@@ -48,14 +48,19 @@ module.exports = {
         objects: 'always-multiline',
         imports: 'always-multiline',
         exports: 'always-multiline',
-        functions: 'always-multiline',
+        functions: 'never',
       },
     ],
     'constructor-super': 1,
     'import/extensions': [1, { js: 'never' }],
     'import/max-dependencies': ['error', { max: 40 }],
     'import/no-extraneous-dependencies': [0],
-    'max-len': ['error', { code: 110, }],
+    'jsx-a11y/anchor-is-valid': [
+      'off',
+      {
+        components: ['Link'],
+      },
+    ],
     'max-nested-callbacks': [2, { max: 5 }],
     'no-lonely-if': 2,
     'no-nested-ternary': 2,
@@ -75,5 +80,14 @@ module.exports = {
     'react/sort-comp': 0,
     'react-hooks/exhaustive-deps': 'warn',
     'react-hooks/rules-of-hooks': 'error',
+    'prettier/prettier': [
+      'error',
+      {
+        printWidth: 110,
+        semi: true,
+        singleQuote: true,
+        trailingComma: 'es5',
+      },
+    ],
   },
-}
+};
