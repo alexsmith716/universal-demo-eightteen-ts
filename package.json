@@ -21,7 +21,7 @@
     "check-types-w": "tsc --watch",
     "check-types": "tsc --noEmit true",
     "lint:scss": "stylelint '**/*.scss'",
-    "lint:js": "eslint ./webpack/dev.server.js",
+    "lint:js": "eslint ./src/server.js",
     "lint": "yarn lint:scss && yarn lint:js",
     "format": "prettier --config .prettierrc --write ./bin/start.js"
   },

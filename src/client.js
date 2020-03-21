@@ -26,23 +26,17 @@ import isOnline from './utils/isOnline';
 import './js/app';
 
 const persistConfig = {
-  key: 'root',
-  storage: localForage,
-  // redux-persist:
-  // inboundState:  the state being rehydrated from storage
-  // originalState: the state before the REHYDRATE action
-  stateReconciler(inboundState, originalState) {
-    // preloadedState from window object
-    return originalState;
-  },
-  // redux-persist:
-  whitelist: [
-    'device',
-    'info',
-    'infoAlert',
-    'infoAlertThree',
-    'infoAlertFour',
-  ],
+	key: 'root',
+	storage: localForage,
+	// redux-persist:
+	// inboundState:  the state being rehydrated from storage
+	// originalState: the state before the REHYDRATE action
+	stateReconciler(inboundState, originalState) {
+		// preloadedState from window object
+		return originalState;
+	},
+	// redux-persist:
+	whitelist: ['device', 'info', 'infoAlert', 'infoAlertThree', 'infoAlertFour'],
 };
 
 const spinnerContainer = document.createElement('div');
@@ -54,117 +48,116 @@ document.body.insertBefore(spinnerContainer, dest);
 const client = apiClient();
 
 const providers = {
-  client,
+	client,
 };
 
 (async () => {
-  // redux-persist:
-  // delays rendering of app UI until persisted state has been retrieved and saved to redux
-  const preloadedState = await getStoredState(persistConfig);
-  const online = window.REDUX_DATA ? true : await isOnline();
-  const history = createBrowserHistory();
+	// redux-persist:
+	// delays rendering of app UI until persisted state has been retrieved and saved to redux
+	const preloadedState = await getStoredState(persistConfig);
+	const online = window.REDUX_DATA ? true : await isOnline();
+	const history = createBrowserHistory();
 
-  const store = configureStore({
-    history,
-    data: {
-      ...preloadedState,
-      ...window.REDUX_DATA,
-      online,
-    },
-    helpers: providers,
-    persistConfig,
-  });
+	const store = configureStore({
+		history,
+		data: {
+			...preloadedState,
+			...window.REDUX_DATA,
+			online,
+		},
+		helpers: providers,
+		persistConfig,
+	});
 
-  const triggerHooks = async (_routes, pathname) => {
-    // console.log('>>>> CLIENT > triggerHooks > store.getState() 1111 ######: ', store.getState());
-    spinnerContainer.classList.add('spinner-border');
+	const triggerHooks = async (_routes, pathname) => {
+		// console.log('>>>> CLIENT > triggerHooks > store.getState() 1111 ######: ', store.getState());
+		spinnerContainer.classList.add('spinner-border');
 
-    // Don't fetch data for initial route, server has already done the work:
-    if (window.__PRELOADED__) {
-      // Delete initial data so that subsequent data fetches can occur:
-      console.log('>>>> CLIENT > triggerHooks > window.__PRELOADED__ YES: ', window.__PRELOADED__);
-      delete window.__PRELOADED__;
-    } else {
-      // Fetch mandatory data dependencies for 2nd route change onwards:
-      console.log('>>>> CLIENT > triggerHooks > window.__PRELOADED__ NO > await asyncGetPromises()');
-      await asyncGetPromises(_routes, pathname, store);
-    }
+		// Don't fetch data for initial route, server has already done the work:
+		if (window.__PRELOADED__) {
+			// Delete initial data so that subsequent data fetches can occur:
+			// console.log('>>>> CLIENT > triggerHooks > window.__PRELOADED__ YES: ', window.__PRELOADED__);
+			delete window.__PRELOADED__;
+		} else {
+			// Fetch mandatory data dependencies for 2nd route change onwards:
+			// console.log('>>>> CLIENT > triggerHooks > window.__PRELOADED__ NO > await asyncGetPromises()');
+			await asyncGetPromises(_routes, pathname, store);
+		}
 
-    // defer certain data fetching operations to client >>>> server-side performance <<<<
-    spinnerContainer.classList.remove('spinner-border');
-    // console.log('>>>> CLIENT > triggerHooks > store.getState() 2222 ######: ', store.getState());
-  };
+		// defer certain data fetching operations to client >>>> server-side performance <<<<
+		spinnerContainer.classList.remove('spinner-border');
+		// console.log('>>>> CLIENT > triggerHooks > store.getState() 2222 ######: ', store.getState());
+	};
 
-  // <RouterTriggerTEST>
-  // <RouterTrigger triggerProp={pathname => triggerHooks(_routes, pathname, _store)}>
-  //   {renderRoutes(_routes)}
-  // </RouterTrigger>
+	// <RouterTriggerTEST>
+	// <RouterTrigger triggerProp={pathname => triggerHooks(_routes, pathname, _store)}>
+	//   {renderRoutes(_routes)}
+	// </RouterTrigger>
 
-  const hydrate = (_routes) => {
-    const element = (
-      <HelmetProvider>
-        <AppContainer>
-          <Provider store={store} {...providers}>
-            {/* ---------------------------------------------------------------- */}
-            <Router history={history}>
-              {/* ------------- */}
-              <ScrollToTop />
-              {/* ------------- */}
-              {/* ------------------------------------------------- */}
-              <RouterTriggerTEST triggerProp={pathname => triggerHooks(_routes, pathname)}>
-                {renderRoutes(_routes)}
-              </RouterTriggerTEST>
-              {/* ------------- */}
-            </Router>
-            {/* ---------------------------------------------------------------- */}
-          </Provider>
-        </AppContainer>
-      </HelmetProvider>
-    );
+	const hydrate = (_routes) => {
+		const element = (
+			<HelmetProvider>
+				<AppContainer>
+					<Provider store={store} {...providers}>
+						{/* ---------------------------------------------------------------- */}
+						<Router history={history}>
+							{/* ------------- */}
+							<ScrollToTop />
+							{/* ------------- */}
+							{/* ------------------------------------------------- */}
+							<RouterTriggerTEST triggerProp={(pathname) => triggerHooks(_routes, pathname)}>
+								{renderRoutes(_routes)}
+							</RouterTriggerTEST>
+							{/* ------------- */}
+						</Router>
+						{/* ---------------------------------------------------------------- */}
+					</Provider>
+				</AppContainer>
+			</HelmetProvider>
+		);
 
-    if (dest.hasChildNodes()) {
-      ReactDOM.hydrate(element, dest);
-    } else {
-      ReactDOM.render(element, dest);
-    }
-  };
+		if (dest.hasChildNodes()) {
+			ReactDOM.hydrate(element, dest);
+		} else {
+			ReactDOM.render(element, dest);
+		}
+	};
 
-  hydrate(routes);
+	hydrate(routes);
 
-  if (!__DEVELOPMENT__ && 'serviceWorker' in navigator) {
-    try {
-      const registration = await navigator.serviceWorker.register('/service-worker.js');
-      // console.log('>>>> CLIENT > serviceWorker in navigator > SW Registered! > ');
-      // registration
-      registration.onupdatefound = () => {
-        const installingWorker = registration.installing;
-        installingWorker.onstatechange = () => {
-          switch (installingWorker.state) {
-            case 'installed':
-              if (navigator.serviceWorker.controller) {
-                // old content purged and fresh content added to cache
-                // console.log('>>>> CLIENT > serviceWorker > new or updated content is available <<<<');
-              } else {
-                // precaching complete
-                // console.log('>>>> CLIENT > serviceWorker > content cached for offline use <<<<');
-              }
-              break;
-            case 'redundant':
-              // console.log('>>>> CLIENT > serviceWorker > installed service worker redundant <<<<');
-              break;
-            default:
-              // ignore
-          }
-        };
-      };
-    } catch (error) {
-      // console.log('>>>> CLIENT > serviceWorker > Error registering service worker: ', error);
-    }
+	if (!__DEVELOPMENT__ && 'serviceWorker' in navigator) {
+		try {
+			const registration = await navigator.serviceWorker.register('/service-worker.js');
+			// console.log('>>>> CLIENT > serviceWorker in navigator > SW Registered! > ');
+			// registration
+			registration.onupdatefound = () => {
+				const installingWorker = registration.installing;
+				installingWorker.onstatechange = () => {
+					switch (installingWorker.state) {
+						case 'installed':
+							if (navigator.serviceWorker.controller) {
+								// old content purged and fresh content added to cache
+								// console.log('>>>> CLIENT > serviceWorker > new or updated content is available <<<<');
+							} else {
+								// precaching complete
+								// console.log('>>>> CLIENT > serviceWorker > content cached for offline use <<<<');
+							}
+							break;
+						case 'redundant':
+							// console.log('>>>> CLIENT > serviceWorker > installed service worker redundant <<<<');
+							break;
+						default: // ignore
+					}
+				};
+			};
+		} catch (error) {
+			// console.log('>>>> CLIENT > serviceWorker > Error registering service worker: ', error);
+		}
 
-    await navigator.serviceWorker.ready;
-    // console.log('>>>> CLIENT > serviceWorker > SW Ready! <<<<')
-    // registration.active
-  } else {
-    // console.log('>>>> CLIENT > !__DEVELOPMENT__ && serviceWorker in navigator NO!! <<<<');
-  }
+		await navigator.serviceWorker.ready;
+		// console.log('>>>> CLIENT > serviceWorker > SW Ready! <<<<')
+		// registration.active
+	} else {
+		// console.log('>>>> CLIENT > !__DEVELOPMENT__ && serviceWorker in navigator NO!! <<<<');
+	}
 })();

@@ -25,79 +25,79 @@ import apiClient from './helpers/apiClient';
 // -------------------------------------------------------------------
 
 export default ({ clientStats }) => async (req, res) => {
-  req.counterPreloadedState = Math.floor(Math.random() * (100 - 1)) + 1;
-  req.userAgent = getUserAgent(req.headers['user-agent']);
-  req.isBot = isBot(req.headers['user-agent']);
+	req.counterPreloadedState = Math.floor(Math.random() * (100 - 1)) + 1;
+	req.userAgent = getUserAgent(req.headers['user-agent']);
+	req.isBot = isBot(req.headers['user-agent']);
 
-  const history = createMemoryHistory({ initialEntries: [req.originalUrl] });
+	const history = createMemoryHistory({ initialEntries: [req.originalUrl] });
 
-  const preloadedState = initialStatePreloaded(req);
+	const preloadedState = initialStatePreloaded(req);
 
-  const providers = {
-    client: apiClient(req),
-  };
+	const providers = {
+		client: apiClient(req),
+	};
 
-  const store = configureStore({
-    history,
-    data: { ...preloadedState },
-    helpers: providers,
-  });
+	const store = configureStore({
+		history,
+		data: { ...preloadedState },
+		helpers: providers,
+	});
 
-  // function hydrate(a) {
-  //   res.write('<!doctype html>');
-  //   ReactDOM.renderToNodeStream(<Html assets={a} store={store} />).pipe(res);
-  // }
+	function hydrate(a) {
+		res.write('<!doctype html>');
+		ReactDOM.renderToNodeStream(<Html assets={a} store={store} />).pipe(res);
+	}
 
-  try {
-    // console.log('>>>> SERVER > store.getState() 1111 ####: ', store.getState());
-    await asyncGetPromises(routes, req.path, store);
+	try {
+		// console.log('>>>> SERVER > store.getState() 1111 ####: ', store.getState());
+		await asyncGetPromises(routes, req.path, store);
 
-    // -------------------------------------------------------------------
+		// -------------------------------------------------------------------
 
-    // console.log('>>>> SERVER > DATA PRE-FETCH COMPLETE!! ####');
-    // console.log('>>>> SERVER > store.getState() 2222 ####: ', store.getState());
+		// console.log('>>>> SERVER > DATA PRE-FETCH COMPLETE!! ####');
+		// console.log('>>>> SERVER > store.getState() 2222 ####: ', store.getState());
 
-    const helmetContext = {};
-    const context = {};
+		const helmetContext = {};
+		const context = {};
 
-    const component = (
-      <HelmetProvider context={helmetContext}>
-        <Provider store={store} {...providers}>
-          <Router history={history}>
-            <StaticRouter location={req.originalUrl} context={context}>
-              {renderRoutes(routes)}
-            </StaticRouter>
-          </Router>
-        </Provider>
-      </HelmetProvider>
-    );
+		const component = (
+			<HelmetProvider context={helmetContext}>
+				<Provider store={store} {...providers}>
+					<Router history={history}>
+						<StaticRouter location={req.originalUrl} context={context}>
+							{renderRoutes(routes)}
+						</StaticRouter>
+					</Router>
+				</Provider>
+			</HelmetProvider>
+		);
 
-    const content = ReactDOM.renderToString(component);
-    const assets = flushChunks(clientStats, { chunkNames: flushChunkNames() });
-    // const status = context.status || 200;
+		const content = ReactDOM.renderToString(component);
+		const assets = flushChunks(clientStats, { chunkNames: flushChunkNames() });
+		// const status = context.status || 200;
 
-    if (__DISABLE_SSR__) {
-      return hydrate(assets);
-    }
+		if (__DISABLE_SSR__) {
+			return hydrate(assets);
+		}
 
-    if (context.url) {
-      return res.redirect(301, context.url);
-    }
+		if (context.url) {
+			return res.redirect(301, context.url);
+		}
 
-    const { location } = history;
+		const { location } = history;
 
-    const loc = location.pathname + location.search;
-    if (decodeURIComponent(req.originalUrl) !== decodeURIComponent(loc)) {
-      return res.redirect(301, location.pathname);
-    }
+		const loc = location.pathname + location.search;
+		if (decodeURIComponent(req.originalUrl) !== decodeURIComponent(loc)) {
+			return res.redirect(301, location.pathname);
+		}
 
-    const reduxStore = serialize(store.getState());
-    const html = <Html assets={assets} content={content} store={reduxStore} />;
+		const reduxStore = serialize(store.getState());
+		const html = <Html assets={assets} content={content} store={reduxStore} />;
 
-    const ssrHtml = `<!DOCTYPE html><html lang="en-US">${ReactDOM.renderToString(html)}</html>`;
-    res.status(200).send(ssrHtml);
-  } catch (error) {
-    //res.status(500);
-    //hydrate(flushChunks(clientStats, { chunkNames: flushChunkNames() }));
-  }
+		const ssrHtml = `<!DOCTYPE html><html lang="en-US">${ReactDOM.renderToString(html)}</html>`;
+		res.status(200).send(ssrHtml);
+	} catch (error) {
+		res.status(500);
+		hydrate(flushChunks(clientStats, { chunkNames: flushChunkNames() }));
+	}
 };

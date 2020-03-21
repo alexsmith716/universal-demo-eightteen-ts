@@ -12,11 +12,11 @@ import http from 'http';
 // import channels from './channels';
 import apiConfig from '../config/config';
 
-console.log('>>>>>>>>>>>>>>>>> API > ES > CONFIG >>>>>>>>>>>>>>>>>>>>>>>>: ', apiConfig);
+// console.log('>>>>>>>>>>>>>>>>> API > ES > CONFIG >>>>>>>>>>>>>>>>>>>>>>>>: ', apiConfig);
 
-process.on('unhandledRejection', (error, promise) => {
-	console.error('>>>>>> API > API > Unhandled Rejection at:', promise, 'reason:', error);
-});
+// process.on('unhandledRejection', (error, promise) => {
+// 	console.error('>>>>>> API > API > Unhandled Rejection at:', promise, 'reason:', error);
+// });
 
 // *********************************************************************************************
 // Configure Express server and REST API
@@ -36,19 +36,19 @@ const server = http.createServer(app);
 app.use(morgan('dev'));
 app.use(cookieParser()); // parse cookie header and populate req.cookies
 
-
 // *********************************************************************************************
-
 
 // EXPRESS-SESSION:
 
-// resave: false,             // don't save session if unmodified
-															// Forces session to be saved back to the session store, 
-															// even if the session was never modified during the request.
+// resave: false,
+// don't save session if unmodified
+// Forces session to be saved back to the session store,
+// even if the session was never modified during the request.
 
-// saveUninitialized: false,  // don't create session until something stored
-															// Forces 'uninitialized' session to be saved to the store
-															// A session is uninitialized when it is new but not modified
+// saveUninitialized: false,
+// don't create session until something stored
+// Forces 'uninitialized' session to be saved to the store
+// A session is uninitialized when it is new but not modified
 
 // *** Note:
 // *** if you are using Session in conjunction with PassportJS,
@@ -68,7 +68,7 @@ app.use(cookieParser()); // parse cookie header and populate req.cookies
 
 // Remove expired sessions:
 
-//    *** By default, connect-mongo uses MongoDB's TTL collection feature (2.2+) to have mongod automatically remove expired sessions. 
+//    *** By default, connect-mongo uses MongoDB's TTL collection feature (2.2+) to have mongod automatically remove expired sessions.
 //    *** But you can change this behavior.
 
 // Set MongoDB to clean expired sessions (default mode):
@@ -103,7 +103,6 @@ app.use(cookieParser()); // parse cookie header and populate req.cookies
 //   })
 // );
 
-
 // *********************************************************************************************
 // Configure Exposing services through this RESTful API
 // *********************************************************************************************
@@ -122,16 +121,16 @@ app.use(bodyParser.json());
 // app.configure(socketio({ path: '/ws' }));
 
 app.use((req, res, next) => {
-	console.log('>>>>>>>>>>>>>>>>> API > $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ IN > $$$$$$$$$$$$$$$$$$$$$$$$$$$$$');
+	// console.log('>>>>>>>>>>>>>>>>> API > $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ IN > $$$$$$$$$$$$$$$$$$$$$$$$$$$$$');
 	// console.log('>>>>>>>>>>>>>>>>> API > REQ.ip +++++++++++++: ', req.ip);
-	console.log('>>>>>>>>>>>>>>>>> API > REQ.method +++++++++++++++: ', req.method);
-	console.log('>>>>>>>>>>>>>>>>> API > REQ.url ++++++++++++++++++: ', req.url);
-	console.log('>>>>>>>>>>>>>>>>> API > REQ.headers ++++++++++++++: ', req.headers);
-	console.log('>>>>>>>>>>>>>>>>> API > REQ.cookies ++++++++++++++: ', req.cookies);
-	console.log('>>>>>>>>>>>>>>>>> API > REQ.session ++++++++: ', req.session);
+	// console.log('>>>>>>>>>>>>>>>>> API > REQ.method +++++++++++++++: ', req.method);
+	// console.log('>>>>>>>>>>>>>>>>> API > REQ.url ++++++++++++++++++: ', req.url);
+	// console.log('>>>>>>>>>>>>>>>>> API > REQ.headers ++++++++++++++: ', req.headers);
+	// console.log('>>>>>>>>>>>>>>>>> API > REQ.cookies ++++++++++++++: ', req.cookies);
+	// console.log('>>>>>>>>>>>>>>>>> API > REQ.session ++++++++: ', req.session);
 	// console.log('>>>>>>>>>>>>>>>>> API > REQ.params +++++++++: ', req.params);
 	// console.log('>>>>>>>>>>>>>>>>> API > REQ.originalUrl ++++: ', req.originalUrl);
-	console.log('>>>>>>>>>>>>>>>>> API > $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ IN < $$$$$$$$$$$$$$$$$$$$$$$$$$$$$');
+	// console.log('>>>>>>>>>>>>>>>>> API > $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ IN < $$$$$$$$$$$$$$$$$$$$$$$$$$$$$');
 	return next();
 });
 
@@ -150,19 +149,19 @@ app.use((req, res, next) => {
 // }));
 
 server.on('listening', () => {
-	const addr = server.address();
-	const bind = typeof addr === 'string' ? `pipe ${addr}` : `port ${addr.port}`;
-	console.log('>>>>>>>> API > API > Express server Listening on: ', bind);
+	// const addr = server.address();
+	// const bind = typeof addr === 'string' ? `pipe ${addr}` : `port ${addr.port}`;
+	// console.log('>>>>>>>> API > API > Express server Listening on: ', bind);
 });
 
 if (apiConfig.apiPort) {
-	server.listen(apiConfig.apiPort, err => {
+	server.listen(apiConfig.apiPort, (err) => {
 		if (err) {
-			console.error('>>>>>>>>>>>>>>>>> API > API > ERROR:', err);
+			// console.error('>>>>>>>>>>>>>>>>> API > API > ERROR:', err);
 		}
-		console.info('>>>>>>>>>>>>>>>>> API > API > Running on Host:', apiConfig.apiHost);
-		console.info('>>>>>>>>>>>>>>>>> API > API > Running on Port:', apiConfig.apiPort);
+		// console.info('>>>>>>>>>>>>>>>>> API > API > Running on Host:', apiConfig.apiHost);
+		// console.info('>>>>>>>>>>>>>>>>> API > API > Running on Port:', apiConfig.apiPort);
 	});
 } else {
-	console.error('==>     ERROR: No APIPORT environment variable has been specified');
+	// console.error('==>     ERROR: No APIPORT environment variable has been specified');
 }
