@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const res = p => path.resolve(__dirname, p);
+const res = (p) => path.resolve(__dirname, p);
 const nodeModules = res('../node_modules');
 
 // a hand-crafted "webpack-node-externals"
@@ -27,14 +27,14 @@ const nodeModules = res('../node_modules');
 // All node modules will not be bundled but will be left as "require('module')"
 
 const externals = fs
-  .readdirSync(nodeModules)
+	.readdirSync(nodeModules)
 
-  // WILL include in the bundle
-  .filter(x => !/\.bin|react-universal-component|webpack-flush-chunks/.test(x))
-  .reduce((accumulator, currentArrayElement) => {
-    accumulator[currentArrayElement] = `commonjs ${currentArrayElement}`;
-    return accumulator;
-  }, {});
+	// WILL include in the bundle
+	.filter((x) => !/\.bin|react-universal-component|webpack-flush-chunks/.test(x))
+	.reduce((accumulator, currentArrayElement) => {
+		accumulator[currentArrayElement] = `commonjs ${currentArrayElement}`;
+		return accumulator;
+	}, {});
 
 // WILL NOT include in the bundle
 externals['react-dom/server'] = 'commonjs react-dom/server';

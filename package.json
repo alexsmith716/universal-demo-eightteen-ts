@@ -21,10 +21,9 @@
     "check-types-w": "tsc --watch",
     "check-types": "tsc --noEmit true",
     "lint:scss": "stylelint '**/*.scss'",
-    "lint:js": "eslint ./bin/",
+    "lint:js": "eslint ./webpack/dev.server.js",
     "lint": "yarn lint:scss && yarn lint:js",
-    "format": "prettier --config .prettierrc --write ./bin/start.js",
-    "formatX": "prettier --config .prettierrc --write \"./+(bin)/**/*.{js}\""
+    "format": "prettier --config .prettierrc --write ./bin/start.js"
   },
   "dependencies": {
     "@babel/register": "^7.8.6",
