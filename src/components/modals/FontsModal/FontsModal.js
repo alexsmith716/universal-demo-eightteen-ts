@@ -39,9 +39,9 @@ export const FontsModal = props => {
 
             <p className="color-orangered font-opensans-bold-webfont">This paragraph's '@font-face' is 'OpenSans-Bold-webfont' It is scoped Global.</p>
 
-            <p className={styles.colorCrimsonCssLocal}>This paragraph's color is 'colorCrimsonCssLocal'. It is scoped Local fom 'AppCss1.css'.</p>
+            <p className={styles.colorCrimsonCssLocal}>This paragraph's color is 'colorCrimsonCssLocal'. It is scoped Local from 'AppCss1.css'.</p>
 
-            <p className={styles.coloredText2Local}>This paragraph's color is 'coloredText2Local'. It is scoped Local fom 'AppScss2.scss'.</p>
+            <p className={styles.coloredText2Local}>This paragraph's color is 'coloredText2Local'. It is scoped Local from 'AppScss2.scss'.</p>
 
           </div>
 
