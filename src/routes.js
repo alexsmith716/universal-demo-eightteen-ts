@@ -21,22 +21,22 @@ import { preloadData as preloadDataAboutFour } from './containers/AboutFour/prel
 import './theme/scss/global/styles.global.scss';
 
 const routes = [
-  {
-    component: App,
-    loadData: preloadDataApp,
-    routes: [
-      { path: '/', exact: true, component: Home },
-      { path: '/about', component: About },
-      { path: '/aboutone', component: AboutOne },
-      { path: '/abouttwo', component: AboutTwo },
-      { path: '/aboutthree', component: AboutThree, loadData: preloadDataAboutThree },
-      { path: '/aboutfour', component: AboutFour, loadData: preloadDataAboutFour },
-      { path: '/stickyfooter', component: StickyFooter },
-      { path: '/login', component: Login },
-      { path: '/register', component: Register },
-      { component: NotFound },
-    ],
-  },
+	{
+		component: App,
+		loadData: preloadDataApp,
+		routes: [
+			{ path: '/', exact: true, component: Home },
+			{ path: '/about', component: About },
+			{ path: '/aboutone', component: AboutOne },
+			{ path: '/abouttwo', component: AboutTwo },
+			{ path: '/aboutthree', component: AboutThree, loadData: preloadDataAboutThree },
+			{ path: '/aboutfour', component: AboutFour, loadData: preloadDataAboutFour },
+			{ path: '/stickyfooter', component: StickyFooter },
+			{ path: '/login', component: Login },
+			{ path: '/register', component: Register },
+			{ component: NotFound },
+		],
+	},
 ];
 
 export default routes;
