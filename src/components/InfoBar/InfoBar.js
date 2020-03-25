@@ -18,10 +18,7 @@ export class InfoBar extends Component {
   render() {
 
     const { data, loading, load, error, errorResponse } = this.props;
-
     console.log('>>>>>>>>>>>>>>>>>>>>>>>> InfoBar > this.props.data: ', this.props.data);
-
-
     const styles = require('./scss/InfoBar.scss');
 
     return (
