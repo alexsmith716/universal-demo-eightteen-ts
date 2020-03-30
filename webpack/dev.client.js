@@ -2,6 +2,7 @@ const path = require('path');
 const webpack = require('webpack');
 // Extract CSS from chunks into multiple stylesheets + HMR
 const ExtractCssChunks = require('extract-css-chunks-webpack-plugin');
+const WriteFilePlugin = require('write-file-webpack-plugin');
 
 // const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 // const { DuplicatesPlugin } = require('inspectpack/plugin');
@@ -34,7 +35,7 @@ const generatedIdent = (name, localName) => `${name}__${localName}`;
 
 // client bundle targeting 'web'
 // entry point to client bundle ('client.js') renders to DOM
-const webpackConfig = {
+const webpackClientConfig = {
 	context: path.resolve(__dirname, '..'),
 	name: 'client',
 	target: 'web',
@@ -49,8 +50,6 @@ const webpackConfig = {
 		main: [
 			'react-devtools',
 			`webpack-hot-middleware/client?path=http://${host}:${port}/__webpack_hmr`,
-			// `webpack-hot-middleware/client?path=http://${host}:${port}/__webpack_hmr&timeout=20000&reload=true`,
-			// './src/theme/scss/global/global.styles.scss',
 			'bootstrap',
 			'./src/client.js',
 		],
@@ -61,10 +60,7 @@ const webpackConfig = {
 		chunkFilename: '[name].chunk.js',
 		path: assetPath,
 		publicPath: `http://${host}:${port}/dist/`,
-		// publicPath: '/dist/',
 	},
-
-	// cache: false,
 
 	module: {
 		rules: [
@@ -246,6 +242,7 @@ const webpackConfig = {
 	},
 
 	plugins: [
+		new WriteFilePlugin(),
 		// by default [name].css is used when process.env.NODE_ENV === 'development'
 		//    and [name].[contenthash].css during production,
 		//    so you can likely forget about having to pass anything.
@@ -257,6 +254,7 @@ const webpackConfig = {
 		}),
 
 		new webpack.NamedModulesPlugin(),
+		new webpack.optimize.OccurrenceOrderPlugin(),
 		new webpack.HotModuleReplacementPlugin(),
 		new webpack.NoEmitOnErrorsPlugin(),
 
@@ -324,4 +322,4 @@ const webpackConfig = {
 	],
 };
 
-module.exports = webpackConfig;
+module.exports = webpackClientConfig;

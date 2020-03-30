@@ -84,15 +84,9 @@ const providers = {
 			await asyncGetPromises(_routes, pathname, store);
 		}
 
-		// defer certain data fetching operations to client >>>> server-side performance <<<<
 		spinnerContainer.classList.remove('spinner-border');
 		// console.log('>>>> CLIENT > triggerHooks > store.getState() 2222 ######: ', store.getState());
 	};
-
-	// <RouterTriggerTEST>
-	// <RouterTrigger triggerProp={pathname => triggerHooks(_routes, pathname, _store)}>
-	//   {renderRoutes(_routes)}
-	// </RouterTrigger>
 
 	const hydrate = (_routes) => {
 		const element = (
@@ -124,6 +118,13 @@ const providers = {
 	};
 
 	hydrate(routes);
+
+  if (module.hot) {
+    module.hot.accept('./routes', () => {
+      const nextRoutes = require('./routes');
+      hydrate(nextRoutes.__esModule ? nextRoutes.default : nextRoutes);
+    });
+  }
 
 	if (!__DEVELOPMENT__ && 'serviceWorker' in navigator) {
 		try {

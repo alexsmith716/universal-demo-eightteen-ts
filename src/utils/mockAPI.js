@@ -40,7 +40,7 @@ function postRequestConcatResolveRejectPromise(resolveReject, requestFound, dela
 
 export function postRequestConcatExportASYNC(resolveReject, requestFound, delay, req) {
 
-  console.log('###### mockAPI > postRequestConcatExportASYNC > resolveReject: ', resolveReject, ' requestFound: ', requestFound, ' delay: ', delay, ' req: ', req);
+  // console.log('###### mockAPI > postRequestConcatExportASYNC > resolveReject: ', resolveReject, ' requestFound: ', requestFound, ' delay: ', delay, ' req: ', req);
 
   resolveReject === 'reject' ? delay = 0 : null;
 

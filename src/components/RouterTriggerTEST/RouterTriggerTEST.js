@@ -13,87 +13,86 @@ import { hot } from 'react-hot-loader/root';
 //   * helps avoid re-running effects too often
 
 const RouterTriggerTEST = (props) => {
+	const { triggerProp } = props;
+	const { children } = props;
+	const location = useLocation();
+	// console.log('>>>>>>>>>>>>>>>>>>>>>>>> RouterTriggerTEST > props: ', props);
+	// console.log('>>>>>>>>>>>>>>>>>>>>>>>> RouterTriggerTEST > PROPS > triggerProp: ', triggerProp);
+	// console.log('>>>>>>>>>>>>>>>>>>>>>>>> RouterTriggerTEST > PROPS > children: ', children);
+	// console.log('>>>>>>>>>>>>>>>>>>>>>>>> RouterTriggerTEST > PROPS > useLocation: ', location);
 
-  const { triggerProp } = props;
-  const { children } = props;
-  const location = useLocation();
-  // console.log('>>>>>>>>>>>>>>>>>>>>>>>> RouterTriggerTEST > props: ', props);
-  // console.log('>>>>>>>>>>>>>>>>>>>>>>>> RouterTriggerTEST > PROPS > triggerProp: ', triggerProp);
-  // console.log('>>>>>>>>>>>>>>>>>>>>>>>> RouterTriggerTEST > PROPS > children: ', children);
-  // console.log('>>>>>>>>>>>>>>>>>>>>>>>> RouterTriggerTEST > PROPS > useLocation: ', location);
+	const [needTrigger, setNeedTrigger] = useState(false);
+	// const [prevLocationState, setPreviousLocationState] = useState(props.location);
+	const [locationState, setLocationState] = useState(null);
+	const [prevLocationState, setPreviousLocationState] = useState(null);
+	// const {location: { pathname, search }} = props;
 
-  const [needTrigger, setNeedTrigger] = useState(false);
-  // const [prevLocationState, setPreviousLocationState] = useState(props.location);
-  const [locationState, setLocationState] = useState(null);
-  const [prevLocationState, setPreviousLocationState] = useState(null);
-  // const {location: { pathname, search }} = props;
+	const navigated = !locationState || `${location.pathname}${location.search}` !== `${locationState.pathname}${locationState.search}`;
 
-  const navigated = !locationState || `${location.pathname}${location.search}` !== `${locationState.pathname}${locationState.search}`;
+	// const v = locationState || location;
+	// console.log('>>>>>>>>>>>>>>>>>>>>>>>> RouterTriggerTEST > getDerivedStateFromProps() > locationState: ', locationState);
+	// console.log('>>>>>>>>>>>>>>>>>>>>>>>> RouterTriggerTEST > getDerivedStateFromProps() > navigated: ', navigated);
+	// console.log('>>>>>>>>>>>>>>>>>>>>>>>> RouterTriggerTEST > getDerivedStateFromProps() > prevLocationState: ', v);
 
-  // const v = locationState || location;
-  // console.log('>>>>>>>>>>>>>>>>>>>>>>>> RouterTriggerTEST > getDerivedStateFromProps() > locationState: ', locationState);
-  // console.log('>>>>>>>>>>>>>>>>>>>>>>>> RouterTriggerTEST > getDerivedStateFromProps() > navigated: ', navigated);
-  // console.log('>>>>>>>>>>>>>>>>>>>>>>>> RouterTriggerTEST > getDerivedStateFromProps() > prevLocationState: ', v);
+	// detect a 'navigation'
+	if (navigated) {
+		console.log('>>>>>>>>>>>>>>>>>>>>>>>> RouterTriggerTEST 1111 > getDerivedStateFromProps() > navigated TRUE: ', navigated);
+		setLocationState(location);
+		setPreviousLocationState(locationState || location);
+		// initiate an effect on 'needTrigger'
+		setNeedTrigger(true);
+	}
 
-  // detect a 'navigation'
-  if (navigated) {
-    console.log('>>>>>>>>>>>>>>>>>>>>>>>> RouterTriggerTEST 1111 > getDerivedStateFromProps() > navigated TRUE: ', navigated);
-    setLocationState(location);
-    setPreviousLocationState(locationState || location);
-    // initiate an effect on 'needTrigger'
-    setNeedTrigger(true);
-  }
+	// ================================================================================
 
-  // ================================================================================
+	// lifecycle method 'shouldComponentUpdate()' used to check state for a change
+	// if state has changed, React re-renders the component, otherwise nothing
 
-  // lifecycle method 'shouldComponentUpdate()' used to check state for a change
-  // if state has changed, React re-renders the component, otherwise nothing
+	// isolate effects on 'needTrigger'
+	// evaluate for state change and do somethig (callback)
+	// no 'needTrigger' change, skip the effect
 
-  // isolate effects on 'needTrigger'
-  // evaluate for state change and do somethig (callback)
-  // no 'needTrigger' change, skip the effect
+	// only re-run the effect if 'needTrigger' changes
+	// React will compare [needTrigger] from the previous render and [needTrigger] from the next render
+	// if all items in the array are the same (false === false), React skips the effect
+	// that's an optimization
 
-  // only re-run the effect if 'needTrigger' changes
-  // React will compare [needTrigger] from the previous render and [needTrigger] from the next render
-  // if all items in the array are the same (false === false), React skips the effect
-  // that's an optimization
+	// Is it safe to omit functions from the list of dependencies?
+	// https://github.com/facebook/react/issues/14920
+	useEffect(
+		() => {
+			// componentDidMount
+			console.log('>>>>>>>>>>>>>>>>>>>>>>>> RouterTriggerTEST 2222 > useEffect() > (componentDidMount) > navigated: ', navigated);
+			console.log('>>>>>>>>>>>>>>>>>>>>>>>> RouterTriggerTEST 3333 > useEffect() > (componentDidUpdate) > needTrigger ???: ', needTrigger);
 
-  // Is it safe to omit functions from the list of dependencies?
-  // https://github.com/facebook/react/issues/14920
-  useEffect(
-    () => {
-      // componentDidMount
-      console.log('>>>>>>>>>>>>>>>>>>>>>>>> RouterTriggerTEST 2222 > useEffect() > (componentDidMount) > navigated: ', navigated);
-      console.log('>>>>>>>>>>>>>>>>>>>>>>>> RouterTriggerTEST 3333 > useEffect() > (componentDidUpdate) > needTrigger ???: ', needTrigger);
+			// componentDidUpdate
+			if (needTrigger) {
+				setNeedTrigger(false);
+			}
 
-      // componentDidUpdate
-      if (needTrigger) {
-        setNeedTrigger(false);
-      }
+			// componentDidUpdate
+			if (!needTrigger) {
+				triggerProp(location.pathname)
+					.catch(err => console.log('>>>>>>>>>>>>>>>>>>>>>>>> RouterTriggerTEST 4444 > useEffect() > (componentDidUpdate) > triggerProp > ERROR:', err))
+					.then(() => {
+						console.log('>>>>>>>>>>>>>>>>>>>>>>>> RouterTriggerTEST 5555 > useEffect() > (componentDidUpdate) > triggerProp > SUCCESS');
+						// clear previousLocation so the next screen renders
+						setPreviousLocationState(null);
+					});
+			}
 
-      // componentDidUpdate
-      if (!needTrigger) {
-        triggerProp(location.pathname)
-          .catch(err => console.log('>>>>>>>>>>>>>>>>>>>>>>>> RouterTriggerTEST 4444 > useEffect() > (componentDidUpdate) > triggerProp > ERROR:', err))
-          .then(() => {
-            console.log('>>>>>>>>>>>>>>>>>>>>>>>> RouterTriggerTEST 5555 > useEffect() > (componentDidUpdate) > triggerProp > SUCCESS');
-            // clear previousLocation so the next screen renders
-            setPreviousLocationState(null);
-          });
-      }
+			// componentWillUnmount
+			return () => {
+				// some effects might require cleanup
+				console.log('>>>>>>>>>>>>>>>>>>>>>>>> RouterTriggerTEST 6666 > useEffect() > (componentWillUnmount) > cleanup phase');
+			};
+		},
+		[needTrigger, location.pathname, navigated, triggerProp] // only re-run the effect if an array item changes
+	);
 
-      // componentWillUnmount
-      return () => {
-        // some effects might require cleanup
-        console.log('>>>>>>>>>>>>>>>>>>>>>>>> RouterTriggerTEST 6666 > useEffect() > (componentWillUnmount) > cleanup phase');
-      };
-    },
-    [needTrigger, location.pathname, navigated, triggerProp] // only re-run the effect if an array item changes
-  );
+	// ================================================================================
 
-  // ================================================================================
-
-  return <Route location={prevLocationState || location} render={() => children} />;
+	return <Route location={prevLocationState || location} render={() => children} />;
 }
 
 export default hot(RouterTriggerTEST);

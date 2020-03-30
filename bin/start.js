@@ -1,5 +1,3 @@
-const fs = require('fs');
-require('colors');
 const path = require('path');
 const express = require('express');
 const compression = require('compression');
@@ -19,24 +17,24 @@ const logger = require('../src/utils/logger');
 const host = process.env.HOST || 'localhost';
 const port = process.env.PORT || 8080;
 
-logger.log('>>>>>>>>>>>>>>>>> START > __CLIENT__ ?: ', __CLIENT__);
-logger.log('>>>>>>>>>>>>>>>>> START > __SERVER__ ?: ', __SERVER__);
-logger.log('>>>>>>>>>>>>>>>>> START > __DEVELOPMENT__ ?: ', __DEVELOPMENT__);
-logger.log('>>>>>>>>>>>>>>>>> START > __DISABLE_SSR__ ?: ', __DISABLE_SSR__);
-logger.log('>>>>>>>>>>>>>>>>> START > __DLLS__ ?: ', __DLLS__);
-logger.log('>>>>>>>>>>>>>>>>> START > HOST ?: ', host);
-logger.log('>>>>>>>>>>>>>>>>> START > PORT ?: ', port);
+logger.log(`>>>>>>>>>>>>>>>>> START > __CLIENT__ ?: ${__CLIENT__}`);
+logger.log(`>>>>>>>>>>>>>>>>> START > __SERVER__ ?: ${__SERVER__}`);
+logger.log(`>>>>>>>>>>>>>>>>> START > __DEVELOPMENT__ ?: ${__DEVELOPMENT__}`);
+logger.log(`>>>>>>>>>>>>>>>>> START > __DISABLE_SSR__ ?: ${__DISABLE_SSR__}`);
+logger.log(`>>>>>>>>>>>>>>>>> START > __DLLS__ ?: ${__DLLS__}`);
+logger.log(`>>>>>>>>>>>>>>>>> START > HOST ?: ${host}`);
+logger.log(`>>>>>>>>>>>>>>>>> START > PORT ?: ${port}`);
 
 const unhandledRejections = new Map();
 
 process.on('unhandledRejection', (reason, promise) => {
-	logger.error('>>>> BIN > START > process > Unhandled Rejection at promise:', promise);
-	logger.error('>>>> BIN > START > process > Unhandled Rejection reason:', reason);
+	logger.error(`>>>> BIN > START > process > Unhandled Rejection at promise: ${promise}`);
+	logger.error(`>>>> BIN > START > process > Unhandled Rejection reason: ${reason}`);
 	unhandledRejections.set(promise, reason);
 });
 
 process.on('rejectionHandled', (promise) => {
-	logger.error('>>>> BIN > START > process > rejectionHandled > promise:', promise);
+	logger.error(`>>>> BIN > START > process > rejectionHandled > promise: ${promise}`);
 	unhandledRejections.delete(promise);
 });
 
@@ -48,17 +46,17 @@ app.use(morgan('dev'));
 app.use(compression());
 
 app.use((req, res, next) => {
-	logger.log('>>>>>>>>>>>>>>>>> START > REQUEST IN <<<<<<<<<<<<<<<<<<<<<<<');
-	// logger.log('>>>>>>>>>>>>>>>>> START > REQ.ip +++++++++++++: ', req.ip);
-	logger.log('>>>>>>>>>>>>>>>>> START > REQ.method +++++++++++++++: ', req.method);
-	logger.log('>>>>>>>>>>>>>>>>> START > REQ.url ++++++++++++++++++: ', req.url);
-	logger.log('>>>>>>>>>>>>>>>>> START > REQ.path ++++++++++++++++++: ', req.path);
-	// logger.log('>>>>>>>>>>>>>>>>> START > REQ.headers ++++++++++++++: ', req.headers);
-	// logger.log('>>>>>>>>>>>>>>>>> START > REQ.cookies ++++++++++++++: ', req.cookies);
-	// logger.log('>>>>>>>>>>>>>>>>> START > REQ.session ++++++++: ', req.session);
-	// logger.log('>>>>>>>>>>>>>>>>> START > REQ.params +++++++++: ', req.params);
-	logger.log('>>>>>>>>>>>>>>>>> START > REQ.originalUrl ++++: ', req.originalUrl);
-	logger.log('>>>>>>>>>>>>>>>>> START > REQUEST OUT <<<<<<<<<<<<<<<<<<<<<<<');
+	logger.log(`>>>>>>>>>>>>>>>>> START > REQUEST IN <<<<<<<<<<<<<<<<<<<<<<<`);
+	// logger.log(`>>>>>>>>>>>>>>>>> START > REQ.ip +++++++++++++: ${req.ip}`);
+	logger.log(`>>>>>>>>>>>>>>>>> START > REQ.method +++++++++++++++: ${req.method}`);
+	logger.log(`>>>>>>>>>>>>>>>>> START > REQ.url ++++++++++++++++++: ${req.url}`);
+	logger.log(`>>>>>>>>>>>>>>>>> START > REQ.path ++++++++++++++++++: ${req.path}`);
+	// logger.log(`>>>>>>>>>>>>>>>>> START > REQ.headers ++++++++++++++: ${req.headers}`);
+	// logger.log(`>>>>>>>>>>>>>>>>> START > REQ.cookies ++++++++++++++: ${req.cookies}`);
+	// logger.log(`>>>>>>>>>>>>>>>>> START > REQ.session ++++++++: ${req.session}`);
+	// logger.log(`>>>>>>>>>>>>>>>>> START > REQ.params +++++++++: ${req.params}`);
+	logger.log(`>>>>>>>>>>>>>>>>> START > REQ.originalUrl ++++: ${req.originalUrl}`);
+	logger.log(`>>>>>>>>>>>>>>>>> START > REQUEST OUT <<<<<<<<<<<<<<<<<<<<<<<`);
 	next();
 });
 
@@ -89,23 +87,49 @@ const done = () => {
 logger.start(`>>>> BIN > START > __DEVELOPMENT__ ?: ${__DEVELOPMENT__}`);
 logger.start('>>>> BIN > START > STATS COMPILER ATTEMPTING BUILD ! PLEASE WAIT ! ...');
 
+// https://github.com/sockjs/sockjs-client
+// https://github.com/socketio/socket.io-client
+
+// https://webpack.js.org/concepts/hot-module-replacement/
+// https://webpack.js.org/guides/hot-module-replacement/
+
+// https://webpack.js.org/configuration/
+// https://webpack.js.org/configuration/stats/
+// https://webpack.js.org/api/cli/
+// https://webpack.js.org/api/node/
+// https://webpack.js.org/api/compiler-hooks/
+
+// https://github.com/webpack/tapable#tapable
+// https://github.com/webpack/webpack-dev-server/blob/90d4a7c7ae4198b79ff03a67b0037e4bed3154e8/client-src/default/overlay.js
+// https://github.com/webpack/webpack-dev-server/blob/4a0486456753cbf57a251822d70454748ca7ffe3/examples/cli/multi-compiler/README.md
+// https://github.com/webpack/webpack-dev-server/blob/db5ce446d69e68475ea38e6e229d4d3a38d01a39/examples/api/simple/server.js
+
 if (__DEVELOPMENT__) {
 	const clientConfigDev = require('../webpack/dev.client');
 	const serverConfigDev = require('../webpack/dev.server');
 	const { publicPath } = clientConfigDev.output;
-
 	const serverOptions = { publicPath };
+	// const serverOptions = {
+	//   hot: true,
+	//   lazy: false,
+	//   publicPath: { publicPath },
+	//   headers: { 'Access-Control-Allow-Origin': '*' }
+	// };
 
 	const compiler = webpack([clientConfigDev, serverConfigDev]);
 	const clientCompiler = compiler.compilers[0];
-	const devMiddleware = webpackDevMiddleware(compiler, serverOptions);
-	app.use(devMiddleware);
 
+	const devMiddleware = webpackDevMiddleware(compiler, serverOptions);
+
+	app.use(devMiddleware);
 	app.use(webpackHotMiddleware(clientCompiler));
 
 	app.use(webpackHotServerMiddleware(compiler, { chunkName: 'server' }));
 
-	devMiddleware.waitUntilValid(done);
+	devMiddleware.waitUntilValid(() => {
+	  console.log('>>>> BIN > START > Package is in a valid state');
+	  done();
+	});
 } else {
 	const clientConfigProd = require('../webpack/prod.client');
 	const serverConfigProd = require('../webpack/prod.server');

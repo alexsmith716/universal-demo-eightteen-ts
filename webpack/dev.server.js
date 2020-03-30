@@ -1,6 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const externals = require('./node-externals');
+const WriteFilePlugin = require('write-file-webpack-plugin');
 
 // const loaderUtils = require('loader-utils').stringifyRequest;
 
@@ -15,7 +16,7 @@ const generatedIdent = (name, localName) => `${name}__${localName}`;
 
 // server bundle targeting 'node'
 // entry point to server bundle ('server.js') renders to string
-module.exports = {
+const webpackServerConfig = {
 	context: path.resolve(__dirname, '..'),
 	name: 'server',
 	target: 'node',
@@ -206,6 +207,7 @@ module.exports = {
 	},
 
 	plugins: [
+		new WriteFilePlugin(),
 		// new webpack.ProgressPlugin(handler),
 		// https://webpack.js.org/plugins/module-concatenation-plugin/
 		// new webpack.optimize.ModuleConcatenationPlugin(),
@@ -227,6 +229,7 @@ module.exports = {
 			__DEVELOPMENT__: true,
 			__DEVTOOLS__: true,
 		}),
+    // new webpack.HotModuleReplacementPlugin(),
 		// new BundleAnalyzerPlugin({
 		//   analyzerMode: 'static',
 		//   reportFilename: '../../analyzers/bundleAnalyzer/dev.serverAA.html',
@@ -241,3 +244,5 @@ module.exports = {
 		// }),
 	],
 };
+
+module.exports = webpackServerConfig;
