@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { InfoBar } from '../../components';
+// import { InfoBar } from '../../components';
 
 // import { isLoaded as isInfoLoaded, load as loadInfo } from '../../redux/modules/info';
 // import { isLoaded as isInfoAlertLoaded, load as loadInfoAlert } from '../../redux/modules/infoAlert';
@@ -43,7 +43,7 @@ export class Home extends Component {
 
             <div className={styles.blurb}>What are you and others saying?</div>
 
-            <div className={styles.blurbElipsis}>... join the conversation!!!!.</div>
+            <div className={styles.blurbElipsis}>... join the conversationZZZ.</div>
 
             <div>
               <a className="btn btn-primary btn-lg" role="button" href="#">Sign Up Now »</a>
