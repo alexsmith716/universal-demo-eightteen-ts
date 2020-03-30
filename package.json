@@ -29,6 +29,7 @@
 		"@babel/register": "^7.9.0",
 		"@babel/runtime-corejs3": "^7.9.2",
 		"@fortawesome/fontawesome-free": "^5.12.1",
+		"@hot-loader/react-dom": "^16.13.0",
 		"apollo-boost": "^0.4.7",
 		"axios": "^0.19.2",
 		"body-parser": "^1.19.0",

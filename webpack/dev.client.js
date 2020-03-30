@@ -239,6 +239,9 @@ const webpackClientConfig = {
 
 	resolve: {
 		extensions: ['.ts', '.tsx', '.js', '.json', '.jsx', '.css', '.scss'],
+    alias: {
+      'react-dom': '@hot-loader/react-dom',
+    },
 	},
 
 	plugins: [
