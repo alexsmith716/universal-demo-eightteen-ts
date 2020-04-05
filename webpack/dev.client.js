@@ -82,7 +82,7 @@ const webpackClientConfig = {
 						loader: ExtractCssChunks.loader,
 						options: {
 							hmr: true,
-							reloadAll: true,
+							// reloadAll: true,
 						},
 					},
 					{
@@ -149,7 +149,7 @@ const webpackClientConfig = {
 						loader: ExtractCssChunks.loader,
 						options: {
 							hmr: true,
-							reloadAll: true,
+							// reloadAll: true,
 						},
 					},
 					{
