@@ -1,7 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const externals = require('./node-externals');
-const WriteFilePlugin = require('write-file-webpack-plugin');
+// const WriteFilePlugin = require('write-file-webpack-plugin');
 
 // const loaderUtils = require('loader-utils').stringifyRequest;
 
@@ -26,9 +26,7 @@ const webpackServerConfig = {
 	// devtool: false,
 	devtool: 'source-map',
 
-	entry: {
-		server: './src/server.js',
-	},
+	entry: './src/server.js',
 
 	output: {
 		path: path.resolve('./build/server'),
@@ -210,7 +208,7 @@ const webpackServerConfig = {
 	},
 
 	plugins: [
-		new WriteFilePlugin(),
+		// new WriteFilePlugin(),
 		// new webpack.ProgressPlugin(handler),
 		// https://webpack.js.org/plugins/module-concatenation-plugin/
 		// new webpack.optimize.ModuleConcatenationPlugin(),

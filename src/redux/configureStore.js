@@ -3,12 +3,7 @@ import { createStore, applyMiddleware, combineReducers, compose } from 'redux';
 import { createPersistoid, persistCombineReducers, REGISTER } from 'redux-persist';
 
 import clientMiddleware from './clientMiddleware';
-import createRootReducer from './reducer';
-
-// 'reduceRight()' works just like 'reduce()',
-// except that it processes the array from highest index to lowest (right-to-left),
-// rather than from lowest to highest.
-// You might want to do this if the reduction operation has right-to-left precedence
+import rootReducer from './reducer';
 
 // ----------------------------------------------------------------------
 
@@ -18,35 +13,6 @@ function combine(reducers, persistConfig) {
   }
   return combineReducers(reducers);
 }
-
-// ----------------------------------------------------------------------
-
-// * https://redux.js.org/recipes/code-splitting
-// * split up the app code into multiple JS bundles that can be loaded on-demand
-// * 'code splitting', helps to increase app performance by reducing 
-//    the size of the initial JS payload that must be fetched
-// * to code split, reducers are dynamically add to the store
-// * Redux store exposes a 'replaceReducer' function, 
-//    which replaces the current active root reducer function with a new root reducer function
-// * 'replaceReducer': swaps the internal reducer function reference, 
-//    and dispatchs an action to help any newly-added slice reducers initialize themselves
-
-// *  on-demand, add the reducer for a websocket connected chat component to the store 
-
-// inject reducer function
-// This function adds the async reducer, and creates a new combined reducer
-// ----------------------------------------------------------------------
-// export function inject(store, reducers, persistConfig) {
-//   Object.keys(reducers).forEach(name => {
-//     const reducer = reducers[name];
-// 
-//     if (!store.asyncReducers[name]) {
-//       store.asyncReducers[name] = reducer.__esModule ? reducer.default : reducer;
-//     }
-//   });
-// 
-//   store.replaceReducer(combine(createReducers(store.asyncReducers), persistConfig));
-// }
 
 // ----------------------------------------------------------------------
 
@@ -64,17 +30,6 @@ function customLogger({ getState }) {
 };
 
 // ----------------------------------------------------------------------
-
-// if code requires some function passed to it, otherwise it will toss an error:
-
-// ( () => {}; )                            // empty arrow function
-// var noop = function () {};
-// const noop = () => {};
-// setTimeout(noop, 10000);
-// setTimeout(function () {} , 10000);
-// setTimeout(() => {} , 10000);
-// setTimeout(Function(), 10000);
-// setTimeout(Function.prototype, 10000);
 
 function getNoOperationReducers(reducers, array) {
   if (!array) {
@@ -118,31 +73,10 @@ export default function configureStore({ data, helpers, persistConfig }) {
 
   // ----------------------------------------------------------------------
 
-  // >>>>>>>>>>>>>>>> COMPOSES functions from right to left <<<<<<<<<<<<<<<
-  // >>>>>>>>>>>>>>>> apply several store enhancers in a row <<<<<<<<<<<<<<<
-  // store enhancer is a higher-order function that composes a store creator to return a new, enhanced store creator
-  // a store is not an instance, it's a plain-object collection of functions
-  // a store is not an instance, so copies can be easily created and modified without mutating the original store
-
   const finalEnhancer = compose(...enhancers)(createStore);
-  const reducers = createRootReducer();
+  const reducers = rootReducer();
   const noopReducers = getNoOperationReducers(reducers, data);
   const store = finalEnhancer(combine({ ...noopReducers, ...reducers }, persistConfig), data);
-
-  // ----------------------------------------------------------------------
-
-  // const middleware = [ clientMiddleware(axios), customLogger, logger ];
-
-  // createStore( 
-  //   combine(createRootReducer()),
-  //   preloadedState (persistConfig),
-  //   compose(applyMiddleware(...middleware))
-  // )
-
-  // const finalCreateStore = compose( applyMiddleware(clientMiddleware(axios), customLogger, logger))(createStore)
-  // const store = finalCreateStore( combine(createRootReducer()) );
-
-  // const store = applyMiddleware(clientMiddleware(axios), customLogger, logger)(createStore)(rootReducer)
 
   // ----------------------------------------------------------------------
 
@@ -158,6 +92,10 @@ export default function configureStore({ data, helpers, persistConfig }) {
   }
 
   // ----------------------------------------------------------------------
+
+  if (__DEVELOPMENT__) {
+    console.log('>>>>>>>>>>>>>>>>>>> configureStore() > MODULE ??? __DEVELOPMENT__: ', __DEVELOPMENT__);
+  }
 
   if (__DEVELOPMENT__ && module.hot) {
     console.log('>>>>>>>>>>>>>>>>>>> configureStore() > YES MODULE.HOT <<<<<<<<<<<<<<<<<');

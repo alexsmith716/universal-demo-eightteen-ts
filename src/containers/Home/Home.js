@@ -43,7 +43,7 @@ export class Home extends Component {
 
             <div className={styles.blurb}>What are you and others saying?</div>
 
-            <div className={styles.blurbElipsis}>... join the conversationZZZ.</div>
+            <div className={styles.blurbElipsis}>... join the conversation.</div>
 
             <div>
               <a className="btn btn-primary btn-lg" role="button" href="#">Sign Up Now »</a>
