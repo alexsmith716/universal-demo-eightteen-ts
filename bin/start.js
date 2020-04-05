@@ -91,6 +91,8 @@ logger.start('>>>> BIN > START > STATS COMPILER ATTEMPTING BUILD ! PLEASE WAIT !
 // https://github.com/socketio/socket.io-client
 
 // https://webpack.js.org/concepts/hot-module-replacement/
+// https://webpack.js.org/concepts/manifest/
+// https://webpack.js.org/api/hot-module-replacement/
 // https://webpack.js.org/guides/hot-module-replacement/
 
 // https://webpack.js.org/configuration/
@@ -107,14 +109,9 @@ logger.start('>>>> BIN > START > STATS COMPILER ATTEMPTING BUILD ! PLEASE WAIT !
 if (__DEVELOPMENT__) {
 	const clientConfigDev = require('../webpack/dev.client');
 	const serverConfigDev = require('../webpack/dev.server');
+
 	const { publicPath } = clientConfigDev.output;
 	const serverOptions = { publicPath };
-	// const serverOptions = {
-	//   hot: true,
-	//   lazy: false,
-	//   publicPath: { publicPath },
-	//   headers: { 'Access-Control-Allow-Origin': '*' }
-	// };
 
 	const compiler = webpack([clientConfigDev, serverConfigDev]);
 	const clientCompiler = compiler.compilers[0];
@@ -124,7 +121,7 @@ if (__DEVELOPMENT__) {
 	app.use(devMiddleware);
 	app.use(webpackHotMiddleware(clientCompiler));
 
-	app.use(webpackHotServerMiddleware(compiler, { chunkName: 'server' }));
+	app.use(webpackHotServerMiddleware(compiler));
 
 	devMiddleware.waitUntilValid(() => {
 	  console.log('>>>> BIN > START > Package is in a valid state');
