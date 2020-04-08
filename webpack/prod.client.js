@@ -60,6 +60,12 @@ module.exports = {
 	module: {
 		rules: [
 			{
+				type: 'javascript/auto',
+				test: /\.mjs$/,
+				use: [],
+				include: /node_modules/,
+			},
+			{
 				test: /\.(ts|js)x?$/,
 				exclude: /node_modules/,
 				loader: 'babel-loader',
@@ -150,6 +156,9 @@ module.exports = {
 								getLocalIdent: (loaderContext, localIdentName, localName) => {
 									const lr = loaderContext.resourcePath;
 									if (path.basename(lr).indexOf('global.scss') !== -1) {
+										return localName;
+									}
+									if (path.basename(lr).indexOf('graphiql.css') !== -1) {
 										return localName;
 									}
 									return generatedIdent(
@@ -266,7 +275,7 @@ module.exports = {
 	},
 
 	resolve: {
-		extensions: ['.ts', '.tsx', '.js', '.json', '.jsx', '.css', '.scss'],
+		extensions: ['.ts', '.tsx', '.js', '.json', '.jsx', '.css', '.scss', '.mjs'],
 		alias: {
 			react: path.resolve('./node_modules/react'),
 			// https://github.com/facebook/react/issues/13991 (duplicate react in dependency tree)

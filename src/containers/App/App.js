@@ -30,6 +30,7 @@ const App = (props) => {
   console.log('>>>>>>>>>>>>>>>>>>>>>>>> App > isBot     ????: ', isBot);
 
   const styles = require('./styles/App.scss');
+  const stylesCSS = require('./css/AppCss1.css');
 
   return (
 
@@ -87,6 +88,7 @@ const App = (props) => {
                     <Link to='/aboutthree' className="dropdown-item js-scroll-trigger">About Three</Link>
                     <Link to='/aboutfour' className="dropdown-item js-scroll-trigger">About Four</Link>
                     <Link to='/stickyfooter' className="dropdown-item js-scroll-trigger">StickyFooter</Link>
+                    <Link to='/grapiqlexample' className="dropdown-item js-scroll-trigger">GraphiQL Example</Link>
                   </div>
                 </li>
               </ul>
@@ -111,6 +113,7 @@ const App = (props) => {
             <div className="color-olive font-opensans-bold-webfont">{`'online' store state is ${online} !`}</div>
             <div className="color-crimson font-philosopher-bold-webfont">{`device 'userAgent' store state is ${userAgent} !`}</div>
             <div className="color-orangered font-norwester">{`device 'bot' store state is ${isBot} !`}</div>
+            <div className={stylesCSS.colorGreenyellowCssLocal}>stylesCSS.colorGreenyellowCssLocal</div>
           </div>
         </div>
 
