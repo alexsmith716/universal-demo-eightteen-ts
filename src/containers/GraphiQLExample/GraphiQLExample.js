@@ -4,18 +4,7 @@ import Loading from '../../components/Loading/Loading';
 import GraphiQL from 'graphiql';
 import 'graphiql/graphiql.css';
 
-// {
-//   person(personID: 3) {
-//     name
-//   }
-// }
-// >>>>>>>> {
-// >>>>>>>>   "data": {
-// >>>>>>>>     "person": {
-// >>>>>>>>       "name": "R2-D2"
-// >>>>>>>>     }
-// >>>>>>>>   }
-// >>>>>>>> }
+const token = process.env.API_KEY;
 
 class GraphiQLExample extends Component {
 
@@ -31,7 +20,7 @@ class GraphiQLExample extends Component {
 
 				<h1 className={styles.uniqueColor}>GraphiQL Webpack Example</h1>
 
-				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Et, consequuntur, modi mollitia corporis ipsa voluptate corrupti eum ratione ex ea praesentium quibusdam? Aut, in eum facere corrupti necessitatibus perspiciatis quis?</p>
+				<p>A graphical interactive in-browser GraphQL IDE.</p>
 
 				{/* (>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>) */}
 
@@ -58,10 +47,11 @@ class GraphiQLExample extends Component {
 										<GraphiQL
 											fetcher={async graphQLParams => {
 												const data = await fetch(
-													'https://swapi-graphql.netlify.com/.netlify/functions/index',
+													'https://api.github.com/graphql',
 													{
 														method: 'POST',
 														headers: {
+															Authorization: 'Bearer ' + token,
 															Accept: 'application/json',
 															'Content-Type': 'application/json',
 														},
